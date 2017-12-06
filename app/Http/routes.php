@@ -23,3 +23,7 @@ Route::post('admin/cate/changeOrder', 'Admin\CateController@changeOrder');
 // 友情链接路由
 Route::post('admin/link/changeOrder', 'Admin\LinkController@changeOrder');
 Route::resource('admin/link','Admin\LinkController');
+
+// 网站配置路由
+Route::post('admin/config/changeOrder', 'Admin\ConfigController@changeOrder');
+Route::resource('admin/config', 'Admin\ConfigController');

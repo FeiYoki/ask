@@ -160,33 +160,37 @@ class CateController extends Controller
     {
 //        return $id;
 
-        $cate = Cate::find($id);
-        $cates = Cate::get();
+        $cate = Cate::where('pid', $id)->get();
 
-        $mark = [];
-        foreach ($cates as $k=>$v) {
-            if ($v->pid == $id) {
-                $mark['error'] = 'ok';
-                break;
-            } else {
-                $mark['error'] = 'no';
+//        dd($cate);
+        foreach ($cate as $v) {
+            if (!empty($v)) {
+                $res = 'yes';
             }
         }
-        if($mark['error'] == 'ok'){
-            $res = false;
-        }else{
-            $res = $cate->delete();
+
+        if (!isset($res)) {
+            $res = 'no';
         }
-
-
         $data = [];
-        if($res){
-            $data['error'] = 0;
-            $data['msg'] ="删除成功";
+
+        if ($res == 'yes') {
+            $data['msg'] = '子类存在，不能删除';
+            $data['error'] = 2;
         }else{
-            $data['error'] = 1;
-            $data['msg'] ="删除失败";
+            $res = Cate::find($id)->delete();
+
+            if($res){
+                $data['error'] = 0;
+                $data['msg'] ="删除成功";
+            }else{
+                $data['error'] = 1;
+                $data['msg'] ="删除失败";
+            }
         }
+
+
+
 
         return $data;
 
