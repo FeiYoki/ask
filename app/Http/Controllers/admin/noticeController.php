@@ -39,7 +39,7 @@ class noticeController extends Controller
             ->where('title','like','%'.$input.'%')
             ->orwhere('content','like','%'.$input.'%')
             ->paginate(5);
-           return view('admin.list',compact('notice','input'));
+           return view('admin.notice.list',compact('notice','input'));
        }
     }
 
@@ -50,7 +50,7 @@ class noticeController extends Controller
      */
     public function create()
     {
-        return view('admin.add');
+        return view('admin.notice.add');
     }
 
     /**

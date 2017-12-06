@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\home;
 
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class answerController extends Controller
      */
     public function index()
     {
-        return view('home.answer');
+        return view('home.xxoo');
     }
 
     /**
@@ -37,7 +37,8 @@ class answerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $text = $request->all();
+        dd($text);
     }
 
     /**
@@ -59,7 +60,7 @@ class answerController extends Controller
      */
     public function edit($id)
     {
-        //
+        // return 111111;
     }
 
     /**
