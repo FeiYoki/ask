@@ -2,7 +2,7 @@
 @section('title')
     <title>后台页面</title>
 @stop
-@section('content')
+@section('body')
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->

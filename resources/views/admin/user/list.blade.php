@@ -2,7 +2,7 @@
 @section('title')
     <title>用户列表页</title>
     @stop
-@section('content')
+@section('body')
 <!--面包屑导航 开始-->
 
 <div class="crumb_warp">

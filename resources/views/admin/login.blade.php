@@ -2,7 +2,7 @@
 @section('title')
 	<title>后台登录页</title>
 	@stop
-@section('content')
+@section('body')
 
 
 	<div class="login_box">
