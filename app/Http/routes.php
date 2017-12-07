@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('admin/question','Admin\QuestionController');
+
+Route::resource('home/question','Home\QuestionController');
