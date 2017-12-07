@@ -40,12 +40,12 @@ class answerController extends Controller
     {
         $answer = $request->except('_token');
         $text = $answer['art_content'];
-        // $ltrimed = "<p>";
-        // $text = ltrim($text,$ltrimed);
+        $ltrimed = "<p>";
+        $text = ltrim($text,$ltrimed);
         // $rtrimed = '/<img.*p>/';
         // $content = preg_replace($rtrimed,"",$text);
-        $preg = '/<src=".*"/';
-        preg_match_all($preg,$text,$text);
+        // $preg = '/<src=".*"/';
+        // preg_match_all($preg,$text,$text);
         dd($text);
 
         //  $input = Input::except('_token');
