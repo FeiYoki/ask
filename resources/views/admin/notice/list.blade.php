@@ -51,6 +51,7 @@
                             @endif
                         </ul>
                     </div>
+
         <div class="result_wrap">
             <div class="result_content">
                 <table class="list_tab">

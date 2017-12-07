@@ -11,15 +11,20 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
+// 进入首页路由
+Route::get('/admin/index', 'Admin\IndexController@index');
+Route::get('/admin/info', 'Admin\IndexController@info');
 
 
+// 分类模块路由
 
-Route::get('admin/index','admin\indexController@index');
-Route::get('admin/info','admin\indexController@info');
-Route::get('admin/add','admin\indexController@add');
+Route::resource('admin/cate', 'Admin\CateController');
+Route::post('admin/cate/changeOrder', 'Admin\CateController@changeOrder');
+
+// 友情链接路由
+Route::post('admin/link/changeOrder', 'Admin\LinkController@changeOrder');
+Route::resource('admin/link','Admin\LinkController');
 
 // 后台公告
 Route::get('admin/create','admin\noticeController@create');
@@ -32,3 +37,5 @@ Route::delete('admin/notice/{id}','admin\noticeController@destroy');
 // 前台回答问题
 Route::get('home/answer','home\answerController@index');
 Route::post('home/store','home\answerController@store');
+
+

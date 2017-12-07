@@ -33,7 +33,7 @@ class noticeController extends Controller
         // return view('admin.list')->with('notice',$notice);
         if(empty($input)){
             $notice = Notice::orderBy('nid','asc')->paginate(5);
-           return view('admin.list',compact('notice','input'));
+           return view('admin.notice.list',compact('notice','input'));
        }else{
            $notice = Notice::orderBy('nid','asc')
             ->where('title','like','%'.$input.'%')
@@ -72,9 +72,9 @@ class noticeController extends Controller
         // dd($res);
         if($res){
             
-            return redirect('admin/list')->with('msg','添加成功');
+            return redirect('admin/notice/list')->with('msg','添加成功');
         }else{
-            return redirect('admin/create')->with('msg','添加失败');
+            return redirect('admin/notice/create')->with('msg','添加失败');
         }
     }
 
@@ -98,7 +98,7 @@ class noticeController extends Controller
     public function edit($id)
     {
         $notice = Notice::find($id);
-        return view('admin.edit',compact('notice'));
+        return view('admin.notice.edit',compact('notice'));
     }
     /**
      * Update the specified resource in storage.

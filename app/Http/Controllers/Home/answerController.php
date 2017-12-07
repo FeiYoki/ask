@@ -4,6 +4,7 @@ namespace App\Http\Controllers\home;
 
 use Illuminate\Http\Request;
 
+use App\Models\answer;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -37,8 +38,27 @@ class answerController extends Controller
      */
     public function store(Request $request)
     {
-        $text = $request->all();
+        $answer = $request->except('_token');
+        $text = $answer['art_content'];
+        // $ltrimed = "<p>";
+        // $text = ltrim($text,$ltrimed);
+        // $rtrimed = '/<img.*p>/';
+        // $content = preg_replace($rtrimed,"",$text);
+        $preg = '/<src=".*"/';
+        preg_match_all($preg,$text,$text);
         dd($text);
+
+        //  $input = Input::except('_token');
+        // // dd($input);
+        // $notice = new Notice();
+        // $notice->title = $input['title'];
+        // $notice->content = $input['content'];
+        // $notice->date = date('Y-m-d H:i:s',time());
+        // // dd($notice);
+        // $res = $notice->save();
+        // // dd($res);
+
+
     }
 
     /**

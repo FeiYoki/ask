@@ -39,7 +39,9 @@
                     <label>操作系统</label><span>WINNT</span>
                 </li>
                 <li>
-                    <label>运行环境</label><span>Apache/2.2.21 (Win64) PHP/5.3.10</span>
+
+                    <label>运行环境</label><span>{{$_SERVER['SERVER_SOFTWARE']}}</span>
+
                 </li>
                 <li>
                     <label>PHP运行方式</label><span>apache2handler</span>
@@ -51,11 +53,13 @@
                     <label>上传附件限制</label><span>2M</span>
                 </li>
                 <li>
-                    <label>北京时间</label><span>2014年3月18日 21:08:24</span>
+
+                    <label>上传附件限制</label><span><?php echo get_cfg_var("upload_max_filesize")?get_cfg_var("upload_max_filesize"):"不允许上传";?></span>
                 </li>
                 <li>
-                    <label>服务器域名/IP</label><span>localhost [ 127.0.0.1 ]</span>
+                    <label>北京时间</label><span>{{date('Y-m-d H:i:s')}}</span>
                 </li>
+
                 <li>
                     <label>Host</label><span>127.0.0.1</span>
                 </li>
