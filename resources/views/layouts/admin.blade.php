@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8">
     @yield('title')
     <link rel="stylesheet" href="{{asset('admin/style/css/ch-ui.admin.css')}}">
@@ -10,6 +11,7 @@
     <script type="text/javascript" src="{{asset('layer/layer.js')}}"></script>
 </head>
 <body>
+
 @section('body')
 @show
 </body>

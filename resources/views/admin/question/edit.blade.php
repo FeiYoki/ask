@@ -38,17 +38,17 @@
                     {{method_field('put')}}
                     <th><i class="require">*</i>分类：</th>
                     <td>
-                        {{--<select name="cate_id">--}}
-                            {{--<option value="">==请选择==</option>--}}
-                            {{--@foreach($cates as $k=>$v)--}}
-                                {{--@if($v->cate_id == $art->cate_id)--}}
-                                    {{--<option value="{{$v->cate_id}}" selected>{{$v->cate_names}}</option>--}}
-                                {{--@else--}}
-                                    {{--<option value="{{$v->cate_id}}" >{{$v->cate_names}}</option>--}}
-                                {{--@endif--}}
-                            {{--@endforeach--}}
+                        <select name="cid">
+                            <option value="">==请选择==</option>
+                            @foreach($cates as $k=>$v)
+                                @if($v->cid == $question->cid)
+                                    <option value="{{$v->cid}}" selected>{{$v->cnames}}</option>
+                                @else
+                                    <option value="{{$v->cid}}" >{{$v->cnames}}</option>
+                                @endif
+                            @endforeach
 
-                        {{--</select>--}}
+                        </select>
 
                     </td>
                 </tr>
@@ -70,7 +70,13 @@
 
                         <script id="editor" name="content" type="text/plain" style="width:800px;height:200px;">{!! $question->content !!}</script>
                         <script>
-                        var ue = UE.getEditor('editor');
+                        var ue = UE.getEditor('editor', {
+                            toolbars: [
+                                ['fullscreen', 'source', 'undo', 'redo', 'bold','italic','underline','blockquote','link','insertorderedlist','insertunorderedlist','simpleupload','insertimage']
+                            ],
+                            autoHeightEnabled: true,
+                            autoFloatEnabled: true
+                        });
                         </script>
                         <style>
                             .edui-default{line-height: 28px;}

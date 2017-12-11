@@ -1,32 +1,8 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="csrf-token" content="GSqPLHblpdRfUWF8YTA2qQGEro60OZ8T6ceCBnKQ" />
-    <title>发起提问 - php193问答系统 </title>
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="Tipask Team" />
-    <meta name="copyright" content="2016 tipask.com" />
-
-    <!-- Bootstrap -->
-    <link href="{{ asset('/static/css/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('/static/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('/css/default/global.css')}}" rel="stylesheet" />
-    <link href="{{ asset('/static/js/summernote/summernote.css')}}" rel="stylesheet">
-    <link href="{{ asset('/static/js/select2/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('/static/js/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <!--<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
-    {{--<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>--}}
-    {{--<![endif]-->--}}
-</head>
-<body>
+@extends('layouts.fei-home')
+@section('title')
+    <title>我的题问</title>
+@endsection
+@section('body')
 
 <div class="top-common-nav  mb-50">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -45,6 +21,7 @@
             <div class="collapse navbar-collapse" id="global-navbar">
                 <form class="navbar-form navbar-left" role="search" id="top-search-form" action="http://localhost/tipask-3.2.1/public/search" method="GET">
                     <div class="input-group">
+                        {{csrf_field()}}
                         <input type="text" name="word" id="searchBox" class="form-control" placeholder="" />
                         <span class="input-group-addon btn" >搜索</span>
                     </div>
@@ -64,7 +41,7 @@
                     <li class="dropdown user-avatar">
                         <a href="http://localhost/tipask-3.2.1/public/profile/base" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <img class="avatar-32 mr-5" alt="admin" src="http://localhost/tipask-3.2.1/public/image/avatar/1_middle.jpg" >
-                            <span>admin</span>
+                            <span></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="http://localhost/tipask-3.2.1/public/admin/index">系统设置</a></li>
@@ -100,10 +77,12 @@
                 <li><a href="http://localhost/tipask-3.2.1/public/questions">问答</a></li>
                 <li class="active">发起提问</li>
             </ol>
-            <form id="questionForm" method="POST" role="form" action="http://localhost/tipask-3.2.1/public/question/store">
-                <input type="hidden" id="editor_token" name="_token" value="GSqPLHblpdRfUWF8YTA2qQGEro60OZ8T6ceCBnKQ" />
-                <input type="hidden" id="tags" name="tags" value="" />
-                <input type="hidden" name="to_user_id" value="0" />
+            <form id="questionForm" method="POST" role="form" action="{{url('home/question')}}">
+                {{csrf_field()}}
+                {{--<input type="hidden" id="editor_token" name="_token" value="GSqPLHblpdRfUWF8YTA2qQGEro60OZ8T6ceCBnKQ" />--}}
+                {{--<input type="hidden" id="tags" name="tags" value="" />--}}
+                {{--<input type="hidden" name="to_user_id" value="0" />--}}
+                <input type="hidden" name="click" value="0" />
                 <div class="form-group  ">
                     <label for="title"> 请将您的问题告诉我们  :</label>
                     <input id="title" type="text" name="title"   class="form-control input-lg" placeholder="请在这里概述您的问题" value="" />
@@ -120,38 +99,68 @@
                 </div>
                 <div class="form-group  ">
                     <label for="question_editor">问题描述(选填)</label>
-                    <div id="question_editor"></div>
+                    <div id="question_editor">
+
+                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+                        <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+                        <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+                        <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+                        <script id="editor" name="content" type="text/plain" style="width:1170px;height:180px;"></script>
+                        <script>
+                        var ue = UE.getEditor('editor', {
+                            toolbars: [
+                                ['fullscreen', 'source', 'undo', 'redo', 'bold','italic','underline','blockquote','link','insertorderedlist','insertunorderedlist','simpleupload','insertimage']
+                            ],
+                            autoHeightEnabled: true,
+                            autoFloatEnabled: true
+                        });
+                        </script>
+                        <style>
+                            .edui-default{line-height: 28px;}
+                            div.edui-combox-body,div.edui-button-body,div.edui-splitbutton-body
+                            {overflow: hidden; height:20px;}
+                            div.edui-box{overflow: hidden; height:22px;}
+                        </style>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control">
-                                <option value="0">请选择分类</option>
-                                <option value="1">默认分类</option>
+                            <select name="cid" id="category_id" class="form-control">
+                                <option value="">请选择分类</option>
+                                @foreach($cates as $k=>$v)
+                                    @if(!($v->pid))
+                                        <option value="{{$v->cid}}" disabled >{{$v->cnames}}</option>
+                                    @else
+                                        <option value="{{$v->cid}}">{{$v->cnames}}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-7">
-                        <div class="form-group">
-                            <select id="select_tags" name="select_tags" class="form-control" multiple="multiple" >
-                            </select>
-                        </div>
-                    </div>
+                    {{--<div class="col-md-7">--}}
+                        {{--<div class="form-group">--}}
+                            {{--<select id="select_tags" name="select_tags" class="form-control" multiple="multiple" >--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                 </div>
 
                 <div class="row mt-20">
                     <div class="col-xs-12 col-md-11">
                         <ul class="list-inline">
-                            <li>
-                                <select name="price">
-                                    <option selected="selected" value="0">0</option><option value="3">3</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="30">30</option><option value="50">50</option><option value="80">80</option><option value="100">100</option>
-                                </select>&nbsp;金币
-                            </li>
-                            <li><input type="checkbox" name="hide" value="1" />&nbsp;匿名</li>
+                            {{--<li>--}}
+                                {{--<select name="price">--}}
+                                    {{--<option selected="selected" value="0">0</option><option value="3">3</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="30">30</option><option value="50">50</option><option value="80">80</option><option value="100">100</option>--}}
+                                {{--</select>&nbsp;金币--}}
+                            {{--</li>--}}
+                            {{--<li><input type="checkbox" name="hide" value="1" />&nbsp;匿名</li>--}}
                         </ul>
                     </div>
                     <div class="col-xs-12 col-md-1">
-                        <input type="hidden" id="question_editor_content"  name="description" value=""  />
+                        {{--<input type="hidden" id="question_editor_content"  name="description" value=""  />--}}
                         <button type="submit" class="btn btn-primary pull-right" >发布问题</button>
                     </div>
                 </div>
@@ -175,104 +184,4 @@
         </div>
     </div>
 </footer>
-
-
-<div class="modal fade" id="sendTo_message_model" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">发送私信</h4>
-            </div>
-            <div class="modal-body">
-                <form name="messageForm" id="sendTo_message_form">
-                    <input type="hidden"  name="_token" value="GSqPLHblpdRfUWF8YTA2qQGEro60OZ8T6ceCBnKQ">
-                    <input type="hidden" id="to_user_id" name="to_user_id" value="0" />
-                    <div class="form-group">
-                        <label for="to_user_name" class="control-label">发给:</label>
-                        <span id="to_user_name"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="control-label">内容:</label>
-                        <textarea class="form-control" id="message-text" name="content"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="sendTo_submit">发送</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="{{ asset('/static/js/jquery.min.js') }}"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="{{ asset('/static/css/bootstrap/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript">
-    var is_login = Boolean("1");
-</script>
-<script src="{{ asset('js/global.js') }}"></script>
-<script src="{{ asset('/static/js/summernote/summernote.min.js') }}"></script>
-<script src="{{ asset('/static/js/summernote/lang/summernote-zh-CN.min.js') }}"></script>
-<script src="{{ asset('/static/js/select2/js/select2.min.js')}}"></script>
-<script type="text/javascript">
-    var suggest_timer = null;
-    $(document).ready(function() {
-        $('#question_editor').summernote({
-            lang: 'zh-CN',
-            height: 180,
-            placeholder:'您可以在这里继续补充问题细节',
-            toolbar: [ ['common', ['style','bold','ol','link','picture','clear','fullscreen']] ],
-            callbacks: {
-                onChange:function (contents, $editable) {
-                    var code = $(this).summernote("code");
-                    $("#question_editor_content").val(code);
-                },
-                onImageUpload: function(files) {
-                    upload_editor_image(files[0],'question_editor');
-                }
-            }
-        });
-
-        /*suggest处理*/
-        $("#title").keydown(function(){
-
-            if(suggest_timer){
-                clearTimeout(suggest_timer);
-            }
-            suggest_timer = setTimeout(function() {
-                var title = $("#title").val();
-                if( title.length > 1 ){
-                    $.ajax({
-                        url: '/question/suggest',
-                        type:'post',
-                        data:'word='+title,
-                        cache: false,
-                        success: function(html){
-                            if(html == ''){
-                                $("#suggest-list").html('<li>没有找到相似问题！</li>');
-                                return;
-                            }
-                            $(".widget-suggest").removeClass("hide");
-                            $("#suggest-list").html(html);
-                        }
-                    });
-                }
-            }, 500);
-        });
-
-        $(".widget-suggest-close").click(function(){
-            $(".widget-suggest").addClass("hide");
-        });
-
-
-    });
-</script>
-
-
-
-</body>
-</html>
+@endsection

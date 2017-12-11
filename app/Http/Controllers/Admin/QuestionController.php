@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Model\Cate;
 use App\Http\Model\Question;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,8 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
 
-        $question = Question::orderby('qid','asc')
+        $question = Question::with('cate')
+            ->orderby('qid','asc')
             ->where(function($query) use($request){
                 //检查关键字
                 $title = $request->input('keywords');
@@ -31,6 +33,7 @@ class QuestionController extends Controller
                 }
             })
             ->paginate(5);
+//        dd($question);
         return view('admin/question/list',compact('question','request'));
     }
 
@@ -41,8 +44,9 @@ class QuestionController extends Controller
      */
     public function create()
     {
-//        $cates = Cate::tree();
-        return view('admin/question/add');
+        $cates = Cate::tree();
+//        dd($cates);
+        return view('admin/question/add',compact('cates'));
     }
 
     /**
@@ -81,7 +85,7 @@ class QuestionController extends Controller
         $res = Question::create($input);
         //判断添加是否成功
         if($res){
-            return redirect('admin/question')->with('msg','添加成功');
+            return redirect('admin/question')->with(['msg','添加成功']);
         }else{
             return redirect('admin/question/create')->with('msg','添加失败');
         }
@@ -107,11 +111,12 @@ class QuestionController extends Controller
     public function edit($id)
     {
         //获取所有的分类
-//        $cates = Cate::tree();
-        //根据id找到要修改的文章记录
+        $cates = Cate::tree();
+//        dd($cates);
+        //根据id找到要修改的问题记录
         $question = Question::find($id);
         //dd($art);
-        return view('admin.question.edit',compact('question'));
+        return view('admin.question.edit',compact('question','cates'));
     }
 
     /**
@@ -127,7 +132,7 @@ class QuestionController extends Controller
         $question = Question::find($id);
 //        dd($question);
         //通过$request获取要修改的值
-        $input = $request->except('_token','file_upload');
+        $input = $request->except('_token');
 //        dd($input);
         //使用模型的update方法进行更新
         $res = $question->update($input);

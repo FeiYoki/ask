@@ -37,16 +37,16 @@
                     {{csrf_field()}}
                     <th><i class="require">*</i>分类：</th>
                     <td>
-                        {{--<select name="cid">--}}
-                            {{--<option value="">==请选择==</option>--}}
-                            {{--@foreach($cates as $k=>$v)--}}
-                                {{--@if(!($v->cate_pid))--}}
-                                {{--<option value="{{$v->cid}}" disabled >{{$v->cate_names}}</option>--}}
-                                {{--@else--}}
-                                {{--<option value="{{$v->cid}}">{{$v->cate_names}}</option>--}}
-                                {{--@endif--}}
-                            {{--@endforeach--}}
-                        {{--</select>--}}
+                        <select name="cid">
+                            <option value="">==请选择==</option>
+                            @foreach($cates as $k=>$v)
+                                @if(!($v->pid))
+                                <option value="{{$v->cid}}" disabled >{{$v->cnames}}</option>
+                                @else
+                                <option value="{{$v->cid}}">{{$v->cnames}}</option>
+                                @endif
+                            @endforeach
+                        </select>
 
                     </td>
                 </tr>
@@ -66,9 +66,16 @@
                         <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
                         <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
 
-                        <script id="editor" name="content" type="text/plain" style="width:800px;height:200px;"></script>
+                        <script id="editor" name="content" type="text/plain" style="width:800px;height:200px;" ></script>
                         <script>
-                        var ue = UE.getEditor('editor');
+                        var ue = UE.getEditor('editor', {
+                            toolbars: [
+                                ['fullscreen', 'source', 'undo', 'redo', 'bold','italic','underline','blockquote','link','insertorderedlist','insertunorderedlist','simpleupload','insertimage']
+//                                全屏           源代码      撤销   重做     加粗    倾斜        下划线         引用      链接     有序列表               无序列表              单图上传        多图上传
+                            ],
+                            autoHeightEnabled: true,
+                            autoFloatEnabled: true
+                        });
                         </script>
                         <style>
                             .edui-default{line-height: 28px;}

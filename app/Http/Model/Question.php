@@ -12,4 +12,9 @@ class Question extends Model
     //允许批量设置修改的字段
 //public $fillable = ['title'];
     public $timestamps = false;
+    //对类进行连查
+    public function cate()
+    {
+        return $this->belongsTo('App\Http\Model\Cate','cid','cid');
+    }
 }
