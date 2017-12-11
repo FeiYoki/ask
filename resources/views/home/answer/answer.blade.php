@@ -58,8 +58,7 @@
                     <li ><a href="http://localhost/tipask-3.2.1/public/shop">商城</a></li>
                 </ul>
                                     <ul class="nav navbar-nav user-menu navbar-right">
-                        <li><a href="http://localhost/tipask-3.2.1/public/notifications" class="active" id="unread_notifications"><span class="fa fa-bell-o fa-lg"></span></a></li>
-                        <li><a href="http://localhost/tipask-3.2.1/public/messages" class="active" id="unread_messages"><i class="fa fa-envelope-o fa-lg"></i></a></li>
+                       
                         <li class="dropdown user-avatar">
                             <a href="http://localhost/tipask-3.2.1/public/profile/base" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 <img class="avatar-32 mr-5" alt="feng" src="http://localhost/tipask-3.2.1/public/image/avatar/3_middle.jpg" >
@@ -145,6 +144,16 @@
                 <h2 class="h4 post-title"> 1 个回答</h2>
 
                                 <div class="media">
+
+
+
+
+
+                    <!-- 个人信息以及答案 -->
+                    @if(!empty($ans))
+                    @foreach($ans as $k => $v)
+                    @if($v->status==1)
+
                     <div class="media-left">
                         <a href="http://localhost/tipask-3.2.1/public/people/1" class="avatar-link user-card" target="_blank">
                             <img class="avatar-40 hidden-xs"  src="http://localhost/tipask-3.2.1/public/image/avatar/1_middle.jpg" alt="admin"></a>
@@ -155,53 +164,110 @@
                             <strong>
                                 <a href="http://localhost/tipask-3.2.1/public/people/1" class="mr-5 user-card">admin</a><span class="text-gold">                                </span>
                             </strong>
-                                                        <span class="answer-time text-muted hidden-xs">45分钟前</span>
+                                                        <span class="answer-time text-muted hidden-xs">{{$v->date}}</span>
                         </div>
                         <div class="content">
-                                                        <p><p>suvisdhdbcshciohieds</p></p>
+                                                        {!! $v->content !!}
+                                                        
+                                                        <!-- <img src="{{$v->image}}" width="150px"> -->
                         </div>
+                        <style>
+                            img{
+                                width:200px;
+                                height:100px;
+                                margin:0px 30px;
+                            }
+                        </style>
                         <div class="media-footer">
                             <ul class="list-inline mb-20">
-                                <li><a class="comments"  data-toggle="collapse"  href="#comments-answer-1" aria-expanded="false" aria-controls="comment-1"><i class="fa fa-comment-o"></i> 0 条评论</a></li>
-                                                                                                                                                                                                            <li class="pull-right">
-                                    <button class="btn btn-default btn-sm btn-support" data-source_id="1" data-source_type="answer"  data-support_num="0"><i class="fa fa-thumbs-o-up"></i> 0</button>
+                                <li><a class="comments"  data-toggle="collapse"  href="#comments-answer-1" aria-expanded="false" aria-controls="comment-1">0 条评论</a></li>
+                                <li>
+                                <a href="javascript:;" onclick="editAnswer({{$v->aid}})"><button>编辑</button>
                                 </li>
                             </ul>
                         </div>
                         <div class="collapse widget-comments mb-20" id="comments-answer-1" data-source_type="answer" data-source_id="1">
     <div class="widget-comment-list"></div>
         <div class="widget-comment-form row">
-            <form class="col-md-12" >
-                <div class="form-group">
-                    <textarea name="content" placeholder="写下你的评论" class="form-control" id="comment-answer-content-1"></textarea>
-                </div>
-            </form>
-            <div class="col-md-12 text-right">
-                                <a href="#" class="text-muted collapse-cancel" data-collapse_id="comments-answer-1">取消</a>
-                                <button type="submit" class="btn btn-primary btn-sm ml-10 comment-btn" id="answer-comment-1-btn"  data-token="kJsgMxwrFX5HdIfoXBA92AkAbcZ6FCytZ00TK7EJ" data-source_id="1"  data-source_type="answer" data-to_user_id="0">提交评论</button>
-            </div>
+        
         </div>
     </div>
                                             </div>
-                </div>
-                                <div class="text-center">
-                    
-                </div>
+<hr />
+                        
+                    @endif
+                    @endforeach
+                    @endif
+                        <!-- //个人信息以及答案 -->
 
+                </div>
+                <div class="text-center">   
+                </div>
             </div>
+
+
+            
+
                         <div class="widget-answer-form mt-15">
-
-                        
-
-                       
-                        
                       <!-- 文本编辑器 -->
-
+                      <form method="post" action="{{url('home/answer/store')}}" enctype="multipart/form-data">
+                            {{csrf_field()}}
+                            <input type="hidden" name="edit" value="" id="abcd">
+                        <!-- <input type="text" size="50" id="art_thumb" name="art_thumb" placeholder="请输入需要上传的图片">
+                            <input id="file_upload" name="file_upload[]" type="file" multiple >
+                            <br>
+                            <img src="" id="img1" alt="" style="width:80px;height:80px">
+                            <script type="text/javascript">
+                                $(function () {
+                                    $("#file_upload").change(function () {
+                                        $('img1').show();
+                                        uploadImage();
+                                    });
+                                });
+                                function uploadImage() {
+                                    // 判断是否有选择上传文件
+                                    var imgPath = $("#file_upload").val();
+                                    if (imgPath == "") {
+                                        alert("请选择上传图片！");
+                                        return;
+                                    }
+                                    //判断上传文件的后缀名
+                                    var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+                                    if (strExtension != 'jpg' && strExtension != 'gif'
+                                        && strExtension != 'png' && strExtension != 'bmp') {
+                                        alert("请选择图片文件");
+                                        return;
+                                    }
+                                    var formData = new FormData($('#art_form')[0]);
+                                    {{--var formData = new FormData();--}}
+                                    {{--formData.append('file_upload', $('#file_upload')[0].files[0]);--}}
+                                    {{--formData.append('_token',"{{csrf_token()}}");--}}
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/admin/upload",
+                                        data: formData,
+                                        async: true,
+                                        cache: false,
+                                        contentType: false,
+                                        processData: false,
+                                        success: function(data) {
+                                            $('#img1').attr('src','/uploads/'+data);
+//                                            $('#img1').attr('src','http://p09v2gc7p.bkt.clouddn.com/uploads/'+data);
+//                                            $('#img1').attr('src','http://project193.oss-cn-beijing.aliyuncs.com/'+data);
+                                            $('#img1').show();
+                                            $('#art_thumb').val('/uploads/'+data);
+                                        },
+                                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                            alert("上传失败，请检查网络后重试");
+                                        }
+                                    });
+                                }
+                            </script>
+ -->
 
                            
 
-                        <form method="post" action="{{url('home/store')}}" enctype="multipart/form-data">
-                            {{csrf_field()}}
+                        
 
                             
                             <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
@@ -212,7 +278,32 @@
 
                             <script id="editor" name="art_content" type="text/plain" style="width:800px;height:300px;"></script>
                             <script>
-                                var ue = UE.getEditor('editor');
+                                // 2017-12-08 09:07:39
+                                var ue = UE.getEditor('editor', {
+                                    toolbars: [
+                                ['fullscreen', 'source', 'undo', 'redo', 'bold','italic','underline','blockquote','link','insertorderedlist','insertunorderedlist','simpleupload','insertimage']
+//                                全屏           源代码      撤销   重做     加粗    倾斜     引用           链接     有序列表               无序列表
+                            ],
+                            autoHeightEnabled: true,
+                            autoFloatEnabled: true
+                        });
+                            </script>
+                            <script type="text/javascript">
+                                function editAnswer(id)
+                                {
+                                    // alert(id);
+                                    $.post("{{url('home/answer/edit')}}/"+id,{"_method":"get","_token":"{{csrf_token()}}"},function(data){
+                                             // alert(data);
+                                            //document.getElementById('editor').innerHTML = data;
+                                           // $('#editor').html(data);
+                                           // ue.execCommand( 'inserthtml', data);
+                                            //console.log($("#editor"));
+                                            ue.setContent(data);
+                                            $("#abcd").val(id);
+                                    });
+                                }
+                                
+
                             </script>
                             <style>
                                 .edui-default{line-height: 28px;}

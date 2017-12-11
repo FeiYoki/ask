@@ -38,6 +38,14 @@
                 </ul>
             </li>
 
+			<li>
+            	<h3><i class="fa fa-fw fa-clipboard"></i>答案管理</h3>
+                <ul class="sub_menu">
+                    <li><a href="{{asset('admin/answer')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>修改答案</a></li>
+                    
+                </ul>
+            </li>
+
             <li>
                 <h3><i class="fa fa-fw fa-clipboard"></i>分类模块</h3>
                 <ul class="sub_menu">

@@ -26,6 +26,10 @@ Route::post('admin/cate/changeOrder', 'Admin\CateController@changeOrder');
 Route::post('admin/link/changeOrder', 'Admin\LinkController@changeOrder');
 Route::resource('admin/link','Admin\LinkController');
 
+// 后台回答管理模块
+Route::resource('admin/answer','admin\AnswerController');
+
+
 // 后台公告
 Route::get('admin/create','admin\noticeController@create');
 Route::post('admin/store','admin\noticeController@store');
@@ -34,8 +38,10 @@ Route::get('admin/{id}','admin\noticeController@edit');
 Route::post('admin/update/{id}','admin\noticeController@update');
 Route::delete('admin/notice/{id}','admin\noticeController@destroy');
 
-// 前台回答问题
+// 前台回答问题模块
 Route::get('home/answer','home\answerController@index');
-Route::post('home/store','home\answerController@store');
+Route::post('home/answer/store','home\answerController@store');
+Route::get('home/answer/edit/{id}','home\answerController@edit');
 
-
+// 前台公告
+Route::get('home/notice','home\noticeController@index');
