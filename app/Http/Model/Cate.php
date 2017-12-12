@@ -56,7 +56,7 @@ class Cate extends Model
                         $n->cnames = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.'|--'.$n->cname;
                         $arr[] = $n;
 
-                        //dd($arr);
+//                        dd($arr);
                     }
                 }
             }

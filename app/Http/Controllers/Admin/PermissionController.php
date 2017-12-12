@@ -2,59 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Model\Link;
+use App\Http\Model\Permission;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class LinkController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    /**
-     * 修改排序
-     */
-    public function changeOrder(Request $request)
-    {
-        // 修改要排需的那条记录的order字段为用户指定的值
-//        要修改的那条记录
-        $lid = $request->input('lid');
-//        要修改的值
-        $order = $request->input('order');
-
-        $link = Link::find($lid);
-        $res = $link->update(['order'=>$order]);
-
-        if ($res) {
-            $data = [
-                'status' => 0,
-                'msg' => '修改成功',
-            ];
-        } else {
-            $data = [
-                'status' => 1,
-                'msg' => '修改失败',
-            ];
-        }
-
-        return $data;
-    }
-
-
     public function index()
     {
-//        1.获取友情链接数据
-        $links = Link::orderby('order', 'asc')->get();
+        $permissions = Permission::get();
 
-//        dd($links);
-//        2.显示视图发送数据
-        return view('admin.link.list', compact('links'));
-
+        return view('admin.permission.list', compact('permissions'));
     }
 
     /**
@@ -64,8 +29,8 @@ class LinkController extends Controller
      */
     public function create()
     {
-        //引入添加页面
-        return view('admin.link.add');
+        //引入页面
+        return view('admin.permission.add');
     }
 
     /**
@@ -76,14 +41,16 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request);
         $input = $request->except('_token');
-        $res = Link::create($input);
-        // 判断是否添加成功
+        $res = Permission::create($input);
         if ($res) {
-            return redirect('admin/link');
+            return redirect('admin/permission')->with('msg', '添加成功');
         } else {
-            return back();
+            return redirect('admin/permission/create')->with('msg', '添加失败');
         }
+
+
 
     }
 
@@ -106,9 +73,9 @@ class LinkController extends Controller
      */
     public function edit($id)
     {
-        $link = Link::find($id);
-//        dd($cate);
-        return view('admin.link.edit', compact('link'));
+       $permission =  Permission::find($id);
+       return view('admin.permission.edit', compact('permission'));
+
     }
 
     /**
@@ -120,13 +87,16 @@ class LinkController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $link = Link::find($id);
+        $permission = Permission::find($id);
+
         $input = $request->except('_token', '_method');
-        $res = $link->update($input);
+
+        $res = $permission->update($input);
+
         if ($res) {
-            return redirect('admin/link')->with('msg', '修改成功');
+            return redirect('admin/permission')->with('msg', '修改成功');
         } else {
-            return redirect('admin/link/' . $link->lid . 'edit')->with('msg', '修改失败');
+            return redirect('admin/permission/edit')->with('msg', '修改失败');
         }
     }
 
@@ -138,18 +108,18 @@ class LinkController extends Controller
      */
     public function destroy($id)
     {
-        $res = Link::find($id)->delete();
+        $res = Permission::find($id)->delete();
 
         $data = [];
-        if($res){
+
+        if ($res ) {
             $data['error'] = 0;
-            $data['msg'] ="删除成功";
-        }else{
+            $data['msg'] = '删除成功';
+        } else {
             $data['error'] = 1;
-            $data['msg'] ="删除失败";
+            $data['msg'] = '删除失败';
         }
 
         return $data;
-
     }
 }

@@ -4,12 +4,11 @@ namespace App\Http\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Link extends Model
+class Permission extends Model
 {
     //
-    public $table = 'links';
-    public $primaryKey = 'lid';
+    public $table = 'permissions';
+    public $primaryKey = 'id';
     public $guarded = [];
     public $timestamps = false;
-
 }
