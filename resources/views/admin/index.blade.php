@@ -54,6 +54,20 @@
                 </ul>
             </li>
 			<li>
+				<h3><i class="fa fa-fw fa-clipboard"></i>问题管理</h3>
+				<ul class="sub_menu">
+					<li><a href="{{url('admin/question/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加问题</a></li>
+					<li><a href="{{ url('admin/question/') }}" target="main"><i class="fa fa-fw fa-list-ul"></i>问题列表</a></li>
+				</ul>
+			</li>
+			<li>
+				<h3><i class="fa fa-fw fa-clipboard"></i>积分管理</h3>
+				<ul class="sub_menu">
+					<li><a href="{{url('admin/point/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加积分</a></li>
+					<li><a href="{{ url('admin/point/') }}" target="main"><i class="fa fa-fw fa-list-ul"></i>积分列表</a></li>
+				</ul>
+			</li>
+			<li>
 				<h3><i class="fa fa-fw fa-clipboard"></i>友情链接模块</h3>
 				<ul class="sub_menu">
 					<li><a href="{{url('admin/link/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加友情链接</a></li>

@@ -15,12 +15,18 @@ class Cate extends Model
 
     public $timestamps = false;
 
-    public function tree()
+//    public function tree()
+//    {
+//        $cates = $this->orderBy('order','asc')->get();
+////        dd($cates);
+////       对分类数据进行格式化(排序、缩进)
+//        return $this->getTree($cates,0);
+//    }
+    public static function tree()
     {
-        $cates = $this->orderBy('order','asc')->get();
-//        dd($cates);
-//       对分类数据进行格式化(排序、缩进)
-        return $this->getTree($cates,0);
+        $cates = self::orderBy('order','asc')->get();
+        //对分类数据进行格式化（排序、缩进）
+        return  self::getTree($cates,0);
     }
 
 
@@ -28,7 +34,7 @@ class Cate extends Model
      * 对分类数据进行格式化(排序、缩进)
      */
 
-    public function getTree($Category, $pid)
+    public static function getTree($Category, $pid)
     {
         // 存放最终结果的数组
         $arr = [];

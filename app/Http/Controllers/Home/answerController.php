@@ -19,7 +19,9 @@ class answerController extends Controller
     {
         $ans = Answer::all();
         // dd($ans);
+
         return view('home.answer.answer',compact('ans'));
+
     }
 
     public function upload(Request $request)
@@ -88,6 +90,7 @@ class answerController extends Controller
     public function store(Request $request )
     {
         $answer = $request->except('_token');
+
         // $a = $request->all();
         // dd($answer);
         // dd($answer['art_content']);
@@ -163,6 +166,7 @@ class answerController extends Controller
             // dd($ans[0]['attributes']);
             return redirect('home/answer');
         
+
         
         // if($res){
             

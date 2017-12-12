@@ -187,15 +187,33 @@
 
             <div class="widget-box">
                 <div class="dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">公告</a>
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="a">公告</a>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                     @foreach($notice as $v)
-                        <li>{{$v->title}}</li>
+                        <li class="content">{{$v->title}}</li>
                     @endforeach
-                    <a href="#">more</a>
+                    <a href="#" id="more">more>>></a>
                   </ul>
                 </div>
             </div>
+
+
+                <style>
+                    .content{
+                        margin:10px;
+                        line-height: 15px;
+                        width:160px;
+                    }
+                    #more{
+                        float:right;
+                        text-decoration: none;
+                    }
+                    #a{
+                        text-decoration: none;
+                    }
+                </style>
+
+
 
             <div class="widget-box">
                 <h2 class="h4 widget-box-title">热议话题 <a href="http://localhost/tipask-3.2.1/public/topics" title="更多">»</a></h2>

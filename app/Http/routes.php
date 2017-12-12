@@ -11,6 +11,12 @@
 |
 */
 
+//后台问题模块路由
+Route::resource('admin/question','Admin\QuestionController');
+//前台问题模块路由
+Route::resource('home/question','Home\QuestionController');
+//积分模块
+Route::resource('admin/point','Admin\PointController');
 
 // 进入首页路由
 Route::get('/admin/index', 'Admin\IndexController@index');
@@ -40,8 +46,10 @@ Route::delete('admin/notice/{id}','admin\noticeController@destroy');
 
 // 前台回答问题模块
 Route::get('home/answer','home\answerController@index');
+
 Route::post('home/answer/store','home\answerController@store');
 Route::get('home/answer/edit/{id}','home\answerController@edit');
 
 // 前台公告
 Route::get('home/notice','home\noticeController@index');
+
