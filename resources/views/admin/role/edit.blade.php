@@ -25,34 +25,23 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/link/'.$link->lid)}}" method="post">
+        <form action="{{url('admin/role/'.$role->id)}}" method="post">
             {{ csrf_field() }}
             {{ method_field('put')}}
             <table class="add_tab">
                 <tbody>
 
-
                     <tr>
-                        {{csrf_field()}}
-                        <th><i class="require">*</i>链接名称：</th>
+                        <th><i class="require">*</i>角色名称：</th>
                         <td>
-                            <input type="text" class="lg" name="name" value="{{ $link->name }}">
-                            <p>标题可以写30个字</p>
+                            <input type="text" class="lg" name="name" value="{{ $role->name }}">
                         </td>
                     </tr>
 
                     <tr>
-                        <th><i class="require">*</i>链接url：</th>
+                        <th><i class="require">*</i>角色名称：</th>
                         <td>
-                            <input type="text" class="lg" name="url" value="{{ $link->url }}">
-                            <p>标题可以写30个字</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="require">*</i>链接排序：</th>
-                        <td>
-                            <input type="text" class="lg" name="order" value="{{ $link->order }}">
-                            <p>标题可以写30个字</p>
+                            <input type="text" class="lg" name="description" value="{{ $role->description}}">
                         </td>
                     </tr>
                     <tr>

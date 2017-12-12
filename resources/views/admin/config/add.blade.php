@@ -69,7 +69,7 @@
                 <tr>
                     <th>排序：</th>
                     <td>
-                        <input type="text" class="sm" name="order" >
+                        <input type="text" class="lg" name="order" >
                     </td>
                 </tr>
                 <tr>

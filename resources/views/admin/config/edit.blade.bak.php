@@ -50,8 +50,27 @@
                         <input type="text" name="content" value="{{$config->content}}">
                         <span><i class="fa fa-exclamation-circle yellow"></i>配置内容名称必须填写</span>
                     </td>
+                </tr>
+                <tr>
+                    <th>类型：</th>
 
-
+                    <td>
+                        @if($config->type=="input")
+                            <input type="text" name="content" value="{{$config->content}}">
+                        @elseif($config->type =="radio")
+                            <input type="radio" name="content" value="{{$config->content}}">
+                        @elseif($config->type == "textarea")
+                            <textarea name="content" id="" cols="30" rows="10">{{$config->content}}</textarea>
+                        @endif
+                    </td>
+                </tr>
+                <tr class="value" style="display: none">
+                    <th>类型值：</th>
+                    <td>
+                        <input type="text" class="lg" name="value">
+                        <p><i class="fa fa-exclamation-circle yellow"></i>类型值只有在radio的情况下才需要配置，格式 1|开启,0|关闭</p>
+                    </td>
+                </tr>
                 <tr>
                     <th>排序：</th>
                     <td>

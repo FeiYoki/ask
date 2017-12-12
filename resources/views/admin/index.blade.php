@@ -15,9 +15,9 @@
 		</div>
 		<div class="top_right">
 			<ul>
-				<li>管理员：admin</li>
-				<li><a href="pass.html" target="main">修改密码</a></li>
-				<li><a href="#">退出</a></li>
+				<li>管理员：{{session('user')->name}}</li>
+				<li><a href="#" target="main">修改密码</a></li>
+				<li><a href="{{url('admin/logout')}}">退出</a></li>
 			</ul>
 		</div>
 	</div>
@@ -52,6 +52,20 @@
 				<ul class="sub_menu">
 					<li><a href="{{url('admin/config/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加网站配置</a></li>
 					<li><a href="{{ url('admin/config/') }}" target="main"><i class="fa fa-fw fa-list-ul"></i>网站配置列表</a></li>
+				</ul>
+			</li>
+			<li>
+				<h3><i class="fa fa-fw fa-clipboard"></i>角色模块</h3>
+				<ul class="sub_menu">
+					<li><a href="{{url('admin/role/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加角色</a></li>
+					<li><a href="{{ url('admin/role/') }}" target="main"><i class="fa fa-fw fa-list-ul"></i>角色列表</a></li>
+				</ul>
+			</li>
+			<li>
+				<h3><i class="fa fa-fw fa-clipboard"></i>权限模块</h3>
+				<ul class="sub_menu">
+					<li><a href="{{url('admin/permission/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加权限</a></li>
+					<li><a href="{{ url('admin/permission/') }}" target="main"><i class="fa fa-fw fa-list-ul"></i>权限列表</a></li>
 				</ul>
 			</li>
             <li>

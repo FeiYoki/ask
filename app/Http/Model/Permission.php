@@ -4,16 +4,11 @@ namespace App\Http\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Config extends Model
+class Permission extends Model
 {
-    public $table = 'config';
-
-    public $guarded = [];
-
+    //
+    public $table = 'permissions';
     public $primaryKey = 'id';
-
+    public $guarded = [];
     public $timestamps = false;
-
-
-
 }
