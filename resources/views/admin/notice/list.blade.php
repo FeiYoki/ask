@@ -39,9 +39,9 @@
         </div>
                     <div class="alert alert-danger">
                         <ul>
-                            @if(session('msg'))
+                            <!-- @if(session('msg'))
                                 <li style="color:red">{{session('msg')}}</li>
-                            @endif
+                            @endif -->
                         </ul>
                     </div>
 

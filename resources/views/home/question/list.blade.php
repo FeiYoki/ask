@@ -410,7 +410,6 @@
 <script src="{{ asset('js/global.js') }}"></script>
 <script src="{{ asset('/static/js/select2/js/select2.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('layer/layer.js')}}"></script>
-
 <script type="text/javascript">
     var invitation_timer = null;
     var question_id = "3";

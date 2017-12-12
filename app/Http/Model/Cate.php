@@ -57,6 +57,7 @@ class Cate extends Model
                         $arr[] = $n;
 
                         //dd($arr);
+
                     }
                 }
             }

@@ -30,29 +30,7 @@
             {{ method_field('put')}}
             <table class="add_tab">
                 <tbody>
-                    {{--<tr>--}}
-                        {{--<th width="120"><i class="require">*</i>父级分类：</th>--}}
-                        {{--<td>--}}
-                            {{--<select name="pid">--}}
-                                {{--<option value="">==请选择==</option>--}}
-                                {{--@foreach($cates as $k=>$v)--}}
-                                    {{--@if($v->cid == $v->cid)--}}
-                                        {{--<option value="{{$v->cid}}" selected >{{$v->cnames}}</option>--}}
-                                    {{--@else--}}
-                                        {{--<option value="{{$v->cid}}">{{$v->cnames}}</option>--}}
-                                    {{--@endif--}}
-                                {{--@endforeach--}}
-                            {{--</select>--}}
-                        {{--</td>--}}
-                    {{--</tr>--}}
 
-                    {{--<tr>--}}
-                        {{--<th><i class="require">*</i>父类名称：</th>--}}
-                        {{--<td>--}}
-                            {{--<input type="text" name="pid" value="{{ $cates->pid }}">--}}
-                            {{--<span><i class="fa fa-exclamation-circle yellow"></i>分类名称必须填写</span>--}}
-                        {{--</td>--}}
-                    {{--</tr>--}}
 
                     <tr>
                         {{csrf_field()}}
