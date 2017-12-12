@@ -63,8 +63,7 @@
                             </td>
                             <td>{{$v->click}}</td>
                             <td>{{date('Y-m-d H:i:s',$v->date)}}</td>
-                            <td></td>
-                            {{--<td>{{$v->cate->cate_name}}</td>--}}
+                            <td>{{$v->cate->cname}}</td>
                             <td>
                                 <a href="{{url('admin/question/'.$v->qid.'/edit')}}">修改</a>
                                 <a href="javascript:;" onclick="qDel({{$v->qid}})">删除</a>
