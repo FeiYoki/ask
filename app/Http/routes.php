@@ -20,6 +20,8 @@ Route::get('admin/logout','Admin\IndexController@logout');
 Route::resource('admin/question','Admin\QuestionController');
 //前台提问模块路由
 Route::resource('home/question','Home\QuestionController');
+//前台问题详情模块路由
+Route::get('home/question/{id}/detail','Home\QuestionController@detail');
 //后台积分管理模块
 Route::resource('admin/point','Admin\PointController');
 //前台问题评论模块

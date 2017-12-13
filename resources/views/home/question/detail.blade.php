@@ -170,8 +170,8 @@
                         <a href="http://localhost/tipask/public/question/3?sort=created_at" id="sortby-created" class="btn btn-default btn-xs ">时间排序</a>
                     </div>
 
-                    <h2 class="h4 post-title"> 0 个回答</h2>
-
+                    <h2 class="h4 post-title"> {{$count}} 个回答</h2>
+                    @foreach($answer as $k=>$v)
                     <div class="media">
                         <div class="media-left">
                             <a href="http://localhost/tipask/public/people/2" class="avatar-link user-card" target="_blank">
@@ -183,18 +183,25 @@
                                 <strong>
                                     <a href="http://localhost/tipask/public/people/2" class="mr-5 user-card">xxxxxx</a><span class="text-gold">                                </span>
                                 </strong>
-                                <span class="answer-time text-muted hidden-xs">11小时前</span>
+                                <span class="answer-time text-muted hidden-xs">回答时间 {{$v->date}}</span>
                             </div>
                             <div class="content">
-                                <p><p>123123123</p></p>
+                                {!! $v->content !!}
                             </div>
+                            <style>
+                                img{
+                                    width:200px;
+                                    height:100px;
+                                    margin:0px 30px;
+                                }
+                            </style>
                             <div class="media-footer">
                                 <ul class="list-inline mb-20">
-                                    <li><a class="comments"  data-toggle="collapse"  href="#comments-answer-1" aria-expanded="false" aria-controls="comment-1"><i class="fa fa-comment-o"></i> 0 条评论</a></li>
-                                    <li><a href="http://localhost/tipask/public/answer/edit/1" data-toggle="tooltip" data-placement="right" title="" data-original-title="继续完善回答内容"><i class="fa fa-edit"></i> 编辑</a></li>
+                                    {{--<li><a class="comments"  data-toggle="collapse"  href="#comments-answer-1" aria-expanded="false" aria-controls="comment-1"><i class="fa fa-comment-o"></i> 0 条评论</a></li>--}}
+                                    {{--<li><a href="http://localhost/tipask/public/answer/edit/1" data-toggle="tooltip" data-placement="right" title="" data-original-title="继续完善回答内容"><i class="fa fa-edit"></i> 编辑</a></li>--}}
                                     <li><a href="#" class="adopt-answer" data-toggle="modal" data-target="#adoptAnswer" data-answer_id="1" data-answer_content="&lt;p&gt;123123123&lt;/p&gt;"><i class="fa fa-check-square-o"></i> 采纳</a></li>
                                     <li class="pull-right">
-                                        <button class="btn btn-default btn-sm btn-support" data-source_id="1" data-source_type="answer"  data-support_num="0"><i class="fa fa-thumbs-o-up"></i> 0</button>
+                                        {{--<button class="btn btn-default btn-sm btn-support" data-source_id="1" data-source_type="answer"  data-support_num="0"><i class="fa fa-thumbs-o-up"></i> 0</button>--}}
                                     </li>
                                 </ul>
                             </div>
@@ -214,6 +221,7 @@
                             </div>
                         </div>
                     </div>
+                    @endforeach
                     <div class="text-center">
 
                     </div>
@@ -410,6 +418,7 @@
 <script src="{{ asset('js/global.js') }}"></script>
 <script src="{{ asset('/static/js/select2/js/select2.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('layer/layer.js')}}"></script>
+
 <script type="text/javascript">
     var invitation_timer = null;
     var question_id = "3";

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\home;
 
+use App\Http\Model\Question;
 use Illuminate\Http\Request;
 
 use App\Models\Answer;
@@ -18,6 +19,7 @@ class answerController extends Controller
     public function index()
     {
         $ans = Answer::all();
+        $question = Question::all();
         // dd($ans);
 
         return view('home.answer.answer',compact('ans'));

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Model\Cate;
 use App\Http\Model\Question;
+use App\Http\Model\User;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,12 +19,9 @@ class questionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-//        dd($request);
-//        DB::table('question')->increment('click');
 
-        return view('home/question/list');
     }
 
     /**
@@ -47,16 +46,17 @@ class questionController extends Controller
         //获取提交的数据
         $input = $request->except('_token');
         $input["date"] = time();
-//        dd($input);
+//        dd($question);
         //表单验证
 
         //添加到数据库
         $res = Question::create($input);
-        $input['qid'] = $res['qid'];
-//        dd($input);
+        $question = Question::find($res['qid']);
+
+//        dd($question);
         //判断添加是否成功
         if($res){
-            return view('home/question/list',compact('input'));
+            return view('home/question/detail',compact('question'));
         }else{
             return redirect('home/question/create')->with('msg','添加失败');
         }
@@ -100,24 +100,40 @@ class questionController extends Controller
     {
         //通过id找到要修改的用户记录
         $question = Question::find($id);
+        //查找问题的回答
+        $answer= Answer::find($id);
+        //查询用户数据
+//        $user = ::HomeUser::find($question->uid);
 //        dd($question);
         //通过$request获取要修改的值
         $input = $request->except('_token');
 
         //使用模型的update方法进行更新
         $res = $question->update($input);
-//        整合并往前台传递信息
-        $input['qid'] = $question->qid;
-        $input['image'] = $question->image;
-        $input['date'] = $question->date;
-        $input['click'] = $question->click;
 
         //更新是否成功,跳转到相应页面
         if($res){
-            return view('home/question/list',compact('input'));
+            return view('home/question/detail',compact('question',$question,'answer',$answer));
         }else{
             return redirect('home/question/'.$question->qid.'/edit')->with('msg','修改失败');
         }
+    }
+    public function detail($id)
+    {
+
+        //通过id找到要修改的用户记录
+        $question = Question::find($id);
+        //查找问题的回答
+        $answer = Answer::where('qid',$id)
+            ->orderBy('date','desc')
+            ->get();
+        $count = DB::table('answer')->where('qid',$id)->count();
+//        dd($answer);
+        //查询用户数据
+//        $user = ::HomeUser::find($question->uid);
+//        dd($answer);
+
+        return view('home/question/detail',compact('question',$question,'answer',$answer,'count',$count));
     }
 
     /**
@@ -128,6 +144,17 @@ class questionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $res = Question::find($id)->delete();
+        $data = [];
+        if($res){
+            $data['error'] = 0;
+            $data['msg'] ="删除成功";
+        }else{
+            $data['error'] = 1;
+            $data['msg'] ="删除失败";
+        }
+
+        return $data;
     }
+    
 }
