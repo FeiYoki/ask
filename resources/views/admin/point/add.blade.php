@@ -15,11 +15,17 @@
         <div class="result_title">
 
                 <div class="alert alert-danger">
-                    <ul>
-                       @if(session('msg'))
-                            <li style="color:red">{{session('msg')}}</li>
-                           @endif
-                    </ul>
+                    @if (count($errors) > 0)
+
+                        @if(is_object($errors))
+                            @foreach ($errors->all() as $error)
+                                <p style="color:red">{{ $error }}</p>
+                            @endforeach
+                        @else
+                            <p style="color:red">{{ $errors }}</p>
+                        @endif
+
+                    @endif
                 </div>
 
         </div>

@@ -25,8 +25,16 @@
                 <div class="short_wrap">
                     <div class="alert alert-danger">
                         <ul>
-                            @if(session('msg'))
-                                <li style="color:red">{{session('msg')}}</li>
+                            @if (count($errors) > 0)
+
+                                @if(is_object($errors))
+                                    @foreach ($errors->all() as $error)
+                                        <p style="color:red">{{ $error }}</p>
+                                    @endforeach
+                                @else
+                                    <p style="color:red">{{ $errors }}</p>
+                                @endif
+
                             @endif
                         </ul>
                     </div>
@@ -50,9 +58,7 @@
                 @foreach($point as $k=>$v)
                         <tr>
                             <td class="tc">{{$v->id}}</td>
-                            <td>
-                                <a href="#">{{$v->uid}}</a>
-                            </td>
+                            <td>{{$v->uid}}</td>
                             <td>{{$v->optxt}}</td>
                             <td>{{$v->points}}</td>
                             <td>{{date('Y-m-d H-i-s',$v->optime)}}</td>

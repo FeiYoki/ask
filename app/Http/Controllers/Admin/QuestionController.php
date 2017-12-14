@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Model\Cate;
 use App\Http\Model\Question;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -22,7 +23,7 @@ class QuestionController extends Controller
     {
 
         $question = Question::with('cate')
-            ->orderby('qid','asc')
+            ->orderby('date','desc')
             ->where(function($query) use($request){
                 //检查关键字
                 $title = $request->input('keywords');
@@ -45,7 +46,6 @@ class QuestionController extends Controller
     public function create()
     {
         $cates = Cate::tree();
-//        dd($cates);
         return view('admin/question/add',compact('cates'));
     }
 
@@ -63,31 +63,35 @@ class QuestionController extends Controller
         $input["date"] = time();
 //        dd($input);
         //表单验证
-//        $rule = [
-//            'title'=>'required|regex:/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]+$/u|between:5,20',
-//        ];
-//
-//        $str = [
-//            'title.required'=>'问题标题不能为空',
-//            'title.regex'=>'问题标题可以是字母数字下划线',
-//            'title.between'=>'问题标题需在5~30个字符之间',
-//        ];
-//        $validator = Validator::make($input,$rule,$str);
-//
-//        //如果表单验证失败
-//        if($validator->fails()){
-//            return redirect('admin/question/create')
-//                ->withErrors($validator)
-//                ->withInput();
-//        }
+        $rule = [
+            'title'   => 'required|regex:/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]+$/u|between:5,30',
+            'content' => 'max:200',
+            'cid'     => 'required'
+        ];
+
+        $str = [
+            'title.required' =>'问题标题不能为空',
+            'title.regex'    =>'问题标题必须是字母数字下划线',
+            'title.between'  =>'问题标题需在5~30个字符之间',
+            'content.between'=>'问题描述不能能超过200个字符',
+            'cid.required'   =>'分类未选择'
+        ];
+        $validator = Validator::make($input,$rule,$str);
+
+        //如果表单验证失败
+        if($validator->fails()){
+            return redirect('admin/question/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         //添加到数据库
 
         $res = Question::create($input);
         //判断添加是否成功
         if($res){
-            return redirect('admin/question')->with(['msg','添加成功']);
+            return redirect('admin/question')->with('errors','添加成功');
         }else{
-            return redirect('admin/question/create')->with('msg','添加失败');
+            return redirect('admin/question/create')->with('errors','添加失败');
         }
     }
 
@@ -128,19 +132,41 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //通过id找到要修改的用户记录
-        $question = Question::find($id);
-//        dd($question);
         //通过$request获取要修改的值
         $input = $request->except('_token');
-//        dd($input);
+
+        //表单验证
+        $rule = [
+            'title'   => 'required|regex:/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]+$/u|between:5,30',
+            'content' => 'max:200',
+            'cid'     => 'required'
+        ];
+
+        $str = [
+            'title.required' =>'问题标题不能为空',
+            'title.regex'    =>'问题标题必须是字母数字下划线',
+            'title.between'  =>'问题标题需在5~30个字符之间',
+            'content.between'=>'问题描述不能能超过200个字符',
+            'cid.required'   =>'分类未选择'
+        ];
+        $validator = Validator::make($input,$rule,$str);
+
+        //如果表单验证失败
+        if($validator->fails()){
+            return redirect('admin/question/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        //通过id找到要修改的用户记录
+        $question = Question::find($id);
+
         //使用模型的update方法进行更新
         $res = $question->update($input);
         //更新是否成功,跳转到相应页面
         if($res){
-            return redirect('admin/question')->with('msg','修改成功');
+            return redirect('admin/question')->with('errors','修改成功');
         }else{
-            return redirect('admin/question/'.$question->qid.'/edit')->with('msg','修改失败');
+            return redirect('admin/question/'.$question->qid.'/edit')->with('errors','修改失败');
         }
     }
 
@@ -152,9 +178,12 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        $res = Question::find($id)->delete();
+        //判断积分是否足够
+
+        $resq = Question::find($id)->delete();
+        $resa = Answer::where('qid',$id)->delete();
         $data = [];
-        if($res){
+        if($resa && $resq){
             $data['error'] = 0;
             $data['msg'] ="删除成功";
         }else{
