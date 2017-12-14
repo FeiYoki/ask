@@ -30,7 +30,8 @@
 <!--结果集标题与导航组件 结束-->
 
 <div class="result_wrap">
-    <div >               @if (count($errors) > 0)
+    <div >
+        @if (count($errors) > 0)
             <div class="alert alert-danger">
                 <ul>
                     @if(is_object($errors))
@@ -42,7 +43,8 @@
                     @endif
                 </ul>
             </div>
-        @endif</div>
+        @endif
+    </div>
     <form action="{{ url('admin/user') }}" method="post">
         {{ csrf_field() }}
 

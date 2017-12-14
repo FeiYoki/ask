@@ -16,7 +16,7 @@
 
 
     <!--搜索结果页面 列表 开始-->
-    <form action="#" method="post">
+    <form action="{{url('admin/config')}}" method="get">
         <div class="result_wrap">
             <!--快捷导航 开始-->
             <div class="result_content">
@@ -24,6 +24,9 @@
                     <a href="#"><i class="fa fa-plus"></i>新增文章</a>
                     <a href="#"><i class="fa fa-recycle"></i>批量删除</a>
                     <a href="#"><i class="fa fa-refresh"></i>更新排序</a>
+                    @if(session('msg'))
+                        <small class="tishi"><span class="text-red" style="color:red;font-size:30px">{{session('msg')}}</span></small>
+                    @endif
                 </div>
             </div>
             <!--快捷导航 结束-->
@@ -71,6 +74,8 @@
                 </table>
             </div>
         </div>
+
+
     </form>
     <!--搜索结果页面 列表 结束-->
     <script>
@@ -129,5 +134,6 @@
             })
         }
 
+$(".tishi").fadeOut(2000);
     </script>
-
+@endsection

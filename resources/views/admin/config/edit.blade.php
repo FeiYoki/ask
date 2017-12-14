@@ -25,6 +25,20 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
+
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @if(is_object($errors))
+                        @foreach ($errors->all() as $error)
+                            <li style="color:red">{{ $error }}</li>
+                        @endforeach
+                    @else
+                        <li style="color:red">{{ $errors }}</li>
+                    @endif
+                </ul>
+            </div>
+        @endif
         <form action="{{url('admin/config/'.$config->id)}}" method="post">
             {{csrf_field()}}
             {{ method_field('put')}}

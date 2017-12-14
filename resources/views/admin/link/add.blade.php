@@ -25,6 +25,21 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
+        <div >
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @if(is_object($errors))
+                            @foreach ($errors->all() as $error)
+                                <li style="color:red">{{ $error }}</li>
+                            @endforeach
+                        @else
+                            <li style="color:red">{{ $errors }}</li>
+                        @endif
+                    </ul>
+                </div>
+            @endif
+        </div>
         <form action="{{url('admin/link')}}" method="post">
             <table class="add_tab">
                 <tbody>
@@ -33,7 +48,7 @@
                     {{csrf_field()}}
                     <th><i class="require">*</i>链接名称：</th>
                     <td>
-                        <input type="text" class="lg" name="name" value="">
+                        <input type="text" class="lg" name="name" value="{{old('name')}}">
                         <p>标题可以写30个字</p>
                     </td>
                 </tr>
@@ -41,14 +56,14 @@
                 <tr>
                     <th><i class="require">*</i>链接url：</th>
                     <td>
-                        <input type="text" class="lg" name="url">
+                        <input type="text" class="lg" name="url" value="{{old('url')}}">
                         <p>标题可以写30个字</p>
                     </td>
                 </tr>
                 <tr>
                     <th><i class="require">*</i>链接排序：</th>
                     <td>
-                        <input type="text" class="lg" name="order">
+                        <input type="text" class="lg" name="order" value="{{old('order')}}">
                         <p>标题可以写30个字</p>
                     </td>
                 </tr>

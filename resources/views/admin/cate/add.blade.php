@@ -16,6 +16,9 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
+                @if(session('msg'))
+                    <li style="color:red">{{session('msg')}}</li>
+                @endif
                 <a href="#"><i class="fa fa-plus"></i>新增文章</a>
                 <a href="#"><i class="fa fa-recycle"></i>批量删除</a>
                 <a href="#"><i class="fa fa-refresh"></i>更新排序</a>
@@ -25,6 +28,21 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
+        <div >
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @if(is_object($errors))
+                            @foreach ($errors->all() as $error)
+                                <li style="color:red">{{ $error }}</li>
+                            @endforeach
+                        @else
+                            <li style="color:red">{{ $errors }}</li>
+                        @endif
+                    </ul>
+                </div>
+            @endif
+        </div>
         <form action="{{url('admin/cate')}}" method="post">
             {{ csrf_field() }}
             <table class="add_tab">
@@ -33,7 +51,7 @@
                         <th width="120"><i class="require">*</i>父级分类：</th>
                         <td>
                             <select name="pid">
-                                <option value="">==请选择==</option>
+                                <option value="0">==请选择==</option>
                             @foreach($cateOne as $k=>$v)
 
                                 <option value="{{$v->cid}}">|--{{$v->cname}}</option>
@@ -44,7 +62,7 @@
                     <tr>
                         <th><i class="require">*</i>分类名称：</th>
                         <td>
-                            <input type="text" name="cname">
+                            <input type="text" name="cname" value="{{old('name')}}">
                             <span><i class="fa fa-exclamation-circle yellow"></i>分类名称必须填写</span>
                         </td>
                     </tr>
@@ -52,7 +70,7 @@
                     <tr>
                         <th><i class="require">*</i>排序：</th>
                         <td>
-                            <input type="text" class="sm" name="order">
+                            <input type="text" class="sm" name="order" value="{{old('order')}}">
                         </td>
                     </tr>
                     <tr>

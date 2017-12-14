@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class ConfigController extends Controller
 {
@@ -87,13 +88,14 @@ class ConfigController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //引入模板，并发送数据
 //        $config = Config::get();
 //        dd($config);
 //        $configs = (new Config)->tree();
         $configs = Config::orderby('order', 'asc')->get();
+
 //        dd($configs);
         foreach ($configs as $k=>$v) {
 
@@ -129,6 +131,8 @@ class ConfigController extends Controller
             }
         }
 
+
+
         return view('admin.config.list', compact('configs'));
     }
 
@@ -153,14 +157,55 @@ class ConfigController extends Controller
      */
     public function store(Request $request)
     {
+//        1. 获取用户提交的表单数据
         $input = $request->except('_token');
+//        2. 表单验证
+        $rule = [
+            'title' => 'required|between:2,10',
+            'name' => 'required|regex:/[a-z]+/|between:2,10',
+            'content' => 'required|between:2,10',
+            'order' => 'required|regex:/\d/|between:1,10',
+            'tips' => 'required|between:2,10',
+            'type' => 'required|regex:/[a-z]+/|between:2,10',
+//            'value' => 'required|between:2,10',
+
+
+        ];
+
+        $mess = [
+            'title.required' => '标题不能位空',
+            'title.between' => '标题2到10位',
+            'name.required' => '名称不能为空',
+            'name.regex' => '名称只能输入字符',
+            'name.between'=>'名称只能输入2到10位',
+            'content.required' => '内容不能为空',
+            'content.between' => '内容只能输入2到10位',
+            'order.required' => '排序不能为空',
+            'order.regex'=>'排序必须输入数字',
+            'order.between' => '排序只能输入1到10位',
+            'tips.required' => '描述不能为空',
+            'tips.between' => '描述只能2到10位',
+            'type.required' => '类型不能为空',
+            'type.regex' => '类型只能输入字母',
+            'type.between' => '类型只能输入2到10位',
+//            'value.between' => '类型值只能2到10位',
+//            'value.required' => '类型值不能为空',
+        ];
+
+        $validator = Validator::make($input,$rule,$mess);
+
+        //如果验证失败
+        if($validator->fails())
+        {
+            return redirect('admin/config/create')->withErrors($validator)->withInput();
+        }
 
         $res = Config::create($input);
         if ($res) {
             $this->PutFile();
             return redirect('admin/config')->with('msg', '添加成功');
         } else {
-            return back()->with('msg', '添加失败');
+            return redirect('admin/config/create')->with('msg', '添加失败');
         }
     }
 
@@ -202,11 +247,50 @@ class ConfigController extends Controller
         //接受提交过来哪条修改记录的信息
         $config = Config::find($id);
         $input = $request->except('_token', '_method');
+//        2. 表单验证
+
+        /*$rule = [
+            'title' => 'required|between:2,10',
+            'name' => 'required|regex:/[a-z]+/|between:2,10',
+            'content' => 'required|between:2,10',
+            'order' => 'required|regex:/\d/|between:1,10',
+            'tips' => 'required|between:2,10',
+            'type' => 'required|regex:/[a-z]+/|between:2,10',
+
+
+        ];
+
+        $mess = [
+            'title.required' => '标题不能位空',
+            'title.between' => '标题2到10位',
+            'name.required' => '名称不能为空',
+            'name.regex' => '名称只能输入字符',
+            'name.between'=>'名称只能输入2到10位',
+            'content.required' => '内容不能为空',
+            'content.between' => '内容只能输入2到10位',
+            'order.required' => '排序不能为空',
+            'order.regex'=>'排序必须输入数字',
+            'order.between' => '排序只能输入1到10位',
+            'tips.required' => '描述不能为空',
+            'tips.between' => '描述只能2到10位',
+            'type.required' => '类型不能为空',
+            'type.regex' => '类型只能输入字母',
+            'type.between' => '类型只能输入2到10位',
+        ];
+
+        $validator = Validator::make($input,$rule,$mess);
+
+        //如果验证失败
+        if($validator->fails())
+        {
+            return redirect('admin/config/'. $config->id . '/edit')->withErrors($validator)->withInput();
+        }*/
+
         $res = $config->update($input);
         if ($res ) {
             return redirect('admin/config')->with('msg', '修改成功');
         } else {
-            return redirect('admin/config/' . $config->id . 'edit')->with('msg', '修改失败');
+            return redirect('admin/config/' . $config->id . '/edit')->with('msg', '修改失败');
         }
     }
 

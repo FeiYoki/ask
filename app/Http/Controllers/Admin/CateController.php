@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class CateController extends Controller
 {
@@ -82,6 +83,30 @@ class CateController extends Controller
         $input = $request->except('_token');
 //        2. 表单验证
 
+        $rule = [
+            'cname' => 'required|between:2,6',
+            'order' => 'required|regex:/^\d+$/',
+            'pid' => 'required|regex:/^\d$/',
+        ];
+
+        $mess = [
+            'cname.required' => '分类名称不能为空',
+//            'cname.regex' => '分类名称必须输入是汉字',
+            'cname.between' => '分类名称2个到6个汉字',
+            'order.required' => '排序不能为空',
+            'order.regex' => '排序必须输入数字',
+            'pid.required' => '父级分类不能为空',
+            'pid.regex' => '父级分类必须输入为数字'
+        ];
+
+        $validator = Validator::make($input,$rule,$mess);
+
+        //如果验证失败
+        if($validator->fails())
+        {
+            return redirect('admin/cate/create')->withErrors($validator)->withInput();
+        }
+
 //        3.执行添加
         $cate = new Cate();
 //        $cate->cid = $input['cid'];
@@ -138,14 +163,39 @@ class CateController extends Controller
         //1.通过id找到要修改的用户
         $cate = Cate::find($id);
 //        2.通过$request获取要修改的值
-        $input = $request->except('_token', '_method');
+        $input = $request->except('_token', '_method', 'cid');
 //        dd($input);
-//       3.使用模型的update进行更新
+//        3.表单验证
+        $rule = [
+            'cname' => 'required|between:2,6',
+            'order' => 'required|regex:/^\d+$/',
+            'pid' => 'regex:/^\d$/',
+        ];
+
+        $mess = [
+            'cname.required' => '分类名称不能为空',
+//            'cname.regex' => '分类名称必须输入是汉字',
+            'cname.between' => '分类名称2个到6个汉字',
+            'order.required' => '排序不能为空',
+            'order.regex' => '排序必须输入数字',
+            'pid.required' => '父级分类不能为空',
+            'pid.regex' => '父级分类必须输入为数字'
+        ];
+
+        $validator = Validator::make($input,$rule,$mess);
+
+        //如果验证失败
+        if($validator->fails())
+        {
+            return redirect('admin/cate/'.$cate->cid.'/edit')->withErrors($validator)->withInput();
+
+        }
+//       4.使用模型的update进行更新
         $res = $cate->update($input);
         if ($res) {
             return redirect('admin/cate')->with('msg', '修改成功');
         } else {
-            return redirect('admin/cate/' . $cate->cid . 'edit')->with('msg', '修改失败');
+            return redirect('admin/cate/' . $cate->cid . '/edit')->with('msg', '修改失败');
         }
 
     }

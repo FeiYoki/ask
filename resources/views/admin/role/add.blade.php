@@ -19,12 +19,30 @@
                 <a href="#"><i class="fa fa-plus"></i>新增角色</a>
                 <a href="#"><i class="fa fa-recycle"></i>批量删除</a>
                 <a href="#"><i class="fa fa-refresh"></i>更新排序</a>
+                @if(session('msg'))
+                    <small class="tishi"><span class="text-red" style="color:red;font-size:30px">{{session('msg')}}</span></small>
+                @endif
             </div>
         </div>
     </div>
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
+        <div >
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @if(is_object($errors))
+                            @foreach ($errors->all() as $error)
+                                <li style="color:red">{{ $error }}</li>
+                            @endforeach
+                        @else
+                            <li style="color:red">{{ $errors }}</li>
+                        @endif
+                    </ul>
+                </div>
+            @endif
+        </div>
         <form action="{{url('admin/role')}}" method="post">
             <table class="add_tab">
                 <tbody>
@@ -33,14 +51,14 @@
                     {{csrf_field()}}
                     <th><i class="require">*</i>角色名称：</th>
                     <td>
-                        <input type="text" class="lg" name="name" value="">
+                        <input type="text" class="lg" name="name" value="{{old('name')}}">
                     </td>
                 </tr>
 
                 <tr>
                     <th><i class="require">*</i>角色描述：</th>
                     <td>
-                        <input type="text" class="lg" name="description">
+                        <input type="text" class="lg" name="description" value="{{old('description')}}">
                     </td>
                 </tr>
 

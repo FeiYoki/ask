@@ -25,7 +25,22 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/role/'.$role->id)}}" method="post">
+        <div >
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @if(is_object($errors))
+                            @foreach ($errors->all() as $error)
+                                <li style="color:red">{{ $error }}</li>
+                            @endforeach
+                        @else
+                            <li style="color:red">{{ $errors }}</li>
+                        @endif
+                    </ul>
+                </div>
+            @endif
+        </div>
+        <form action="{{url('admin/role/'.$role->rid)}}" method="post">
             {{ csrf_field() }}
             {{ method_field('put')}}
             <table class="add_tab">

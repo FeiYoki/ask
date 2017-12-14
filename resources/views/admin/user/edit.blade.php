@@ -17,12 +17,13 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                @if(session('msg'))
-                    <li style="color:red">{{session('msg')}}</li>
-                @endif
+
                 <a href="#"><i class="fa fa-plus"></i>新增文章</a>
                 <a href="#"><i class="fa fa-recycle"></i>批量删除</a>
                 <a href="#"><i class="fa fa-refresh"></i>更新排序</a>
+                @if(session('msg'))
+                    <small class="tishi"><span class="text-red" style="color:red;font-size:30px">{{session('msg')}}</span></small>
+                @endif
             </div>
         </div>
 

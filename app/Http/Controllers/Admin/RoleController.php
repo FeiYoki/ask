@@ -10,7 +10,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
-
+use Illuminate\Support\Facades\Validator;
 class RoleController extends Controller
 {
 
@@ -68,13 +68,24 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-//        return 11;
+//        dd(111);
 //        1.获取数据
-        $roles = Role::get();
+        $roles = Role::where(function ($query) use ($request) {
+            $rolename = $request->input('name');
+            $description = $request->input('description');
+            if(!empty($rolename)) {
+                $query->where('name','like','%'.$rolename.'%');
+            }
+            if (!empty($description)) {
+                $query->where('description', 'like', '%' . $description . '%');
+            }
 
-        return view('admin.role.list', compact('roles'));
+        })
+            ->paginate(1);
+
+        return view('admin.role.list', compact('roles', 'request'));
     }
 
     /**
@@ -99,6 +110,26 @@ class RoleController extends Controller
 //        1.获取提交的数据
         $input = $request->except('_token');
 //        2.表单验证
+        $rule = [
+            'name' => 'required|between:2,10',
+            'description' => 'required|between:2,20',
+
+        ];
+
+        $mess = [
+            'name.required' => '角色名称不能为空',
+            'name.between' => '角色名称只能输入2到10位',
+            'description.required' => '角色描述不能为空',
+            'description.between' => '角色描述只能输入2到20位',
+        ];
+
+        $validator = Validator::make($input,$rule,$mess);
+
+        //如果验证失败
+        if($validator->fails())
+        {
+            return redirect('admin/role/create')->withErrors($validator)->withInput();
+        }
 
 //        3.执行添加操作
         $res = Role::create($input);
@@ -145,14 +176,36 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $role = Role::find($id);
-        $input = $request->except('_token', '_method');
+        $input = $request->except('_token', '_method', 'rid');
+        $rule = [
+            'name' => 'required|between:2,10',
+            'description' => 'required|between:2,20',
+
+        ];
+
+        $mess = [
+            'name.required' => '角色名称不能为空',
+            'name.between' => '角色名称只能输入2到10位',
+            'description.required' => '角色描述不能为空',
+            'description.between' => '角色描述只能输入2到20位',
+        ];
+
+        $validator = Validator::make($input,$rule,$mess);
+
+        //如果验证失败
+        if($validator->fails())
+        {
+            return redirect('admin/role/' . $role->rid . '/edit')->withErrors($validator)->withInput();
+        }
+
         $res = $role->update($input);
         if ($res) {
             return redirect('admin/role')->with('msg', '修改成功');
 
         } else {
-                return redirect('admin/role/' . $role->rid . 'edit')->wiht('msg', '修改失败');
+                return redirect('admin/role/' . $role->rid . '/edit')->with('msg', '修改失败');
 
         }
     }

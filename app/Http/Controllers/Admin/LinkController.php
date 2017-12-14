@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class LinkController extends Controller
 {
@@ -46,14 +47,25 @@ class LinkController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
 //        1.获取友情链接数据
-        $links = Link::orderby('order', 'asc')->get();
+//        $links = Link::orderby('order', 'asc')->get();
+        $links = Link::orderby('order', 'asc')->where(function ($query) use ($request) {
+                $linkname = $request->input('name');
+                $url = $request->input('url');
+                if(!empty($linkname)) {
+                    $query->where('name','like','%'.$linkname.'%');
+                }
+                if (!empty($url)) {
+                    $query->where('url', 'like', '%' . $url . '%');
+                }
 
-//        dd($links);
+            })
+            ->paginate(2);
+//        dd($request->url);
 //        2.显示视图发送数据
-        return view('admin.link.list', compact('links'));
+        return view('admin.link.list', compact('links','request'));
 
     }
 
@@ -76,13 +88,44 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->except('_token');
+        $input = $request->except('_token','lid');
+
+        $rule = [
+
+            'name'=>'required|between:3,20',
+            'url'=>'required',
+            
+            
+//            |regex:/(https?|ftp)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?//',
+
+
+            'order' => 'required|regex:/^\d+$/',
+        ];
+
+        $mess = [
+            'name.required' => '友情链接名称不能为空',
+            'name.between' =>'友情链接名称2位到6位之间',
+            'url.required' => '链接url不能为空',
+            'url.regex' => '书写链接url不规范',
+            'order.required' => '排序不能为空',
+            'order.regex' => '排序必须输入数字',
+
+        ];
+
+        $validator = Validator::make($input,$rule,$mess);
+
+        //如果验证失败
+        if($validator->fails())
+        {
+            return redirect('admin/link/create')->withErrors($validator)->withInput();
+        }
+
         $res = Link::create($input);
         // 判断是否添加成功
         if ($res) {
-            return redirect('admin/link');
+            return redirect('admin/link')->with('msg', '添加成功');
         } else {
-            return back();
+            return redirect('admin/link/create')->with('msg', '添加失败');
         }
 
     }
@@ -122,11 +165,42 @@ class LinkController extends Controller
     {
         $link = Link::find($id);
         $input = $request->except('_token', '_method');
+
+        $rule = [
+
+            'name'=>'required|between:3,20',
+            'url'=>'required',
+
+
+//            |regex:/(https?|ftp)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?//',
+
+
+            'order' => 'required|regex:/^\d+$/',
+        ];
+
+        $mess = [
+            'name.required' => '友情链接名称不能为空',
+            'name.between' =>'友情链接名称2位到6位之间',
+            'url.required' => '链接url不能为空',
+            'url.regex' => '书写链接url不规范',
+            'order.required' => '排序不能为空',
+            'order.regex' => '排序必须输入数字',
+
+        ];
+
+        $validator = Validator::make($input,$rule,$mess);
+
+        //如果验证失败
+        if($validator->fails())
+        {
+            return redirect('admin/link/' . $link->lid . '/edit')->withErrors($validator)->withInput();
+        }
+
         $res = $link->update($input);
         if ($res) {
             return redirect('admin/link')->with('msg', '修改成功');
         } else {
-            return redirect('admin/link/' . $link->lid . 'edit')->with('msg', '修改失败');
+            return redirect('admin/link/' . $link->lid . '/edit')->with('msg', '修改失败');
         }
     }
 

@@ -24,7 +24,7 @@ Route::get('admin/yzm','Admin\LoginController@yzm');
 
 
 
-Route::group(['middleware' => ['hasrole'], 'prefix'=>'admin', 'namespace'=>'Admin'],function (){
+Route::group([ 'prefix'=>'admin', 'namespace'=>'Admin'],function (){
 
 //    用户授权路由
     Route::get('user/auth/{id}','UserController@auth');

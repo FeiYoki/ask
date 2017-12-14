@@ -118,7 +118,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //获取用户提交的数据
+//        1. 获取用户提交的表单数据
        $input = Input::except('_token');
        //进行表单验证validator
         $rule = [

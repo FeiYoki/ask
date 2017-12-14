@@ -11,20 +11,45 @@
 
 
     <!--搜索结果页面 列表 开始-->
-    <form action="#" method="post">
+    <form action="{{url('admin/link')}}" method="get">
         <div class="result_wrap">
             <!--快捷导航 开始-->
             <div class="result_content">
+                 <div>
+                     <th width="70">链接名称：</th>
+                     <td><input type="text" name="name" ></td>
+                     <th>链接URL：</th>
+                     <td><input type="text" name="url" ></td>
+                     <input type="submit" value="查询">
+                 </div>
                 <div class="short_wrap">
                     <a href="#"><i class="fa fa-plus"></i>新增文章</a>
                     <a href="#"><i class="fa fa-recycle"></i>批量删除</a>
                     <a href="#"><i class="fa fa-refresh"></i>更新排序</a>
+                    @if(session('msg'))
+                        <small class="tishi"><span class="text-red" style="color:red;font-size:30px">{{session('msg')}}</span></small>
+                    @endif
                 </div>
             </div>
             <!--快捷导航 结束-->
         </div>
 
         <div class="result_wrap">
+            <div >
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @if(is_object($errors))
+                                @foreach ($errors->all() as $error)
+                                    <li style="color:red">{{ $error }}</li>
+                                @endforeach
+                            @else
+                                <li style="color:red">{{ $errors }}</li>
+                            @endif
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <div class="result_content">
                 <table class="list_tab">
                     <tr>
@@ -52,34 +77,25 @@
             </div>
         </div>
 
-        {{--<div class="page_nav">
-            <div>
-                <a class="first" href="/wysls/index.php/Admin/Tag/index/p/1.html">第一页</a>
-                <a class="prev" href="/wysls/index.php/Admin/Tag/index/p/7.html">上一页</a>
-                <a class="num" href="/wysls/index.php/Admin/Tag/index/p/6.html">6</a>
-                <a class="num" href="/wysls/index.php/Admin/Tag/index/p/7.html">7</a>
-                <span class="current">8</span>
-                <a class="num" href="/wysls/index.php/Admin/Tag/index/p/9.html">9</a>
-                <a class="num" href="/wysls/index.php/Admin/Tag/index/p/10.html">10</a>
-                <a class="next" href="/wysls/index.php/Admin/Tag/index/p/9.html">下一页</a>
-                <a class="end" href="/wysls/index.php/Admin/Tag/index/p/11.html">最后一页</a>
-                <span class="rows">11 条记录</span>
-            </div>
-        </div>--}}
 
 
+        <style>
+            table{table-layout: fixed;word-break: break-all; word-wrap: break-word; //表格固定布局}
 
-        {{--<div class="page_list">
-            <ul>
-                <li class="disabled"><a href="#">&laquo;</a></li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&raquo;</a></li>
-            </ul>
-        </div>--}}
+            .award-name{-o-text-overflow:ellipsis;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:100%; //超出部分显示省略号}
+
+        </style>
+
+        <div class="page_nav" style=" margin-left:455px;">
+            {{--{{var_dump($request->all())}}--}}
+                {!! $links->appends($request->all())->render() !!}
+        </div>
+
+        <style>
+            .page_list ul li span{
+                padding:6px 12px;
+            }
+        </style>
     </form>
     <!--搜索结果页面 列表 结束-->
     <script>
@@ -138,5 +154,7 @@
             })
         }
 
+$(".tishi").fadeOut(2000);
     </script>
+@endsection
 

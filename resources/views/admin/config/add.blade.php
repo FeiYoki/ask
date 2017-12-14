@@ -25,6 +25,20 @@
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
+
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @if(is_object($errors))
+                        @foreach ($errors->all() as $error)
+                            <li style="color:red">{{ $error }}</li>
+                        @endforeach
+                    @else
+                        <li style="color:red">{{ $errors }}</li>
+                    @endif
+                </ul>
+            </div>
+        @endif
         <form action="{{url('admin/config')}}" method="post">
             <table class="add_tab">
                 <tbody>
@@ -40,14 +54,14 @@
                 <tr>
                     <th><i class="require">*</i>名称：</th>
                     <td>
-                        <input type="text" name="name">
+                        <input type="text" name="name" value="{{old('name')}}">
                         <span><i class="fa fa-exclamation-circle yellow"></i>配置项名称必须填写</span>
                     </td>
                 </tr>
                 <tr>
                     <th><i class="require">*</i>内容：</th>
                     <td>
-                        <input type="text" name="content">
+                        <input type="text" name="content" value="{{old('content')}}">
                         <span><i class="fa fa-exclamation-circle yellow"></i>配置内容名称必须填写</span>
                     </td>
                 </tr>
@@ -62,20 +76,20 @@
                 <tr class="value" style="display: none">
                     <th>类型值：</th>
                     <td>
-                        <input type="text" class="lg" name="value">
+                        <input type="text" class="lg" name="value" value="{{old('value')}}">
                         <p><i class="fa fa-exclamation-circle yellow"></i>类型值只有在radio的情况下才需要配置，格式 1|开启,0|关闭</p>
                     </td>
                 </tr>
                 <tr>
                     <th>排序：</th>
                     <td>
-                        <input type="text" class="lg" name="order" >
+                        <input type="text" class="lg" name="order" value="{{old('order')}}">
                     </td>
                 </tr>
                 <tr>
                     <th>说明：</th>
                     <td>
-                        <textarea id="" cols="30" rows="10" name="tips"></textarea>
+                        <textarea id="" cols="30" rows="10" name="tips" >{{old('tips')}}</textarea>
                     </td>
                 </tr>
                 <tr>
