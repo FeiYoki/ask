@@ -33,11 +33,17 @@
             <div class="result_content">
                 <div class="short_wrap">
                     <div class="alert alert-danger">
-                        <ul>
-                            @if(session('msg'))
-                                <li style="color:red">{{session('msg')}}</li>
+                        @if (count($errors) > 0)
+
+                            @if(is_object($errors))
+                                @foreach ($errors->all() as $error)
+                                    <p style="color:red">{{ $error }}</p>
+                                @endforeach
+                            @else
+                                <p style="color:red">{{ $errors }}</p>
                             @endif
-                        </ul>
+
+                        @endif
                     </div>
                 </div>
             </div>
@@ -92,7 +98,7 @@
         function qDel(id) {
 
             //询问框
-            layer.confirm('您确认删除吗？', {
+            layer.confirm('您确认删除问题以及答案吗？', {
                 btn: ['确认','取消'] //按钮
             }, function(){
                 //如果用户发出删除请求，应该使用ajax向服务器发送删除请求

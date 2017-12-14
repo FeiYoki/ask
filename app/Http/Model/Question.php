@@ -17,4 +17,10 @@ class Question extends Model
     {
         return $this->belongsTo('App\Http\Model\Cate','cid','cid');
     }
+
+    /*问题所有回答*/
+    public function answers()
+    {
+        return $this->hasOne('App\Models\Answer','qid');
+    }
 }

@@ -15,13 +15,15 @@ Route::get('admin/index', 'Admin\IndexController@index');
 Route::get('admin/info', 'Admin\IndexController@info');
 Route::get('admin/logout','Admin\IndexController@logout');
 
-
+//采纳最佳回答路由
+Route::post('home/question/bestanswer/{id}','Home\QuestionController@bestanswer');
 //后台提问模块路由
 Route::resource('admin/question','Admin\QuestionController');
 //前台提问模块路由
 Route::resource('home/question','Home\QuestionController');
 //前台问题详情模块路由
 Route::get('home/question/{id}/detail','Home\QuestionController@detail');
+
 //后台积分管理模块
 Route::resource('admin/point','Admin\PointController');
 //前台问题评论模块

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Model\Point;
+use App\Http\Model\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PointController extends Controller
 {
@@ -17,19 +20,8 @@ class PointController extends Controller
      */
     public function index()
     {
-//        ::with('user')
-        $point = Point::orderby('optime','asc')
-//            ->where(function($query) use($request){
-//                //检查关键字
-//                $id = $request->input('keywords');
-//                //如果关键字不为空
-//                if(!empty($title))
-//                {
-//                    $query->where('uid',$id);
-//                }
-//            })
+        $point = Point::orderby('optime','desc')
             ->paginate(10);
-//        dd($question);
         return view('admin/point/list',compact('point'));
     }
 
@@ -53,38 +45,54 @@ class PointController extends Controller
     {
         //获取提交的数据
         $input = $request->except('_token');
+        //添加操作时间
         $input["optime"] = time();
+        //去除开头输入的0
+        $input['uid'] = ltrim($input['uid'],0);
+
         //判断是惩罚还是奖赏,如果是惩罚,则变为负数
         if($input['optxt']=='punish'){
             $input['points'] = -$input['points'];
+            $input['optxt']= '惩罚';
+        }else{
+            $input['optxt']= '奖励';
         }
-//        dd($input);
+
         //表单验证
-//        $rule = [
-//            'title'=>'required|regex:/^[\x{4e00}-\x{9fa5}A-Za-z0-9_]+$/u|between:5,20',
-//        ];
-//
-//        $str = [
-//            'title.required'=>'问题标题不能为空',
-//            'title.regex'=>'问题标题可以是字母数字下划线',
-//            'title.between'=>'问题标题需在5~30个字符之间',
-//        ];
-//        $validator = Validator::make($input,$rule,$str);
-//
-//        //如果表单验证失败
-//        if($validator->fails()){
-//            return redirect('admin/question/create')
-//                ->withErrors($validator)
-//                ->withInput();
-//        }
+        $rule = [
+            'uid'=>'required|regex:/[0-9]+/',//id必须为数字
+            'points'=>'required|regex:/[0-9]+/',//id必须为整数
+        ];
+
+        $str = [
+            'uid.required'=>'用户ID不能为空',
+            'uid.regex'=>'用户ID必须是数字',
+            'points.required'=>'积分不能为空',
+            'points.regx'=>'积分必须是正整数',
+        ];
+        $validator = Validator::make($input,$rule,$str);
+
+        //如果表单验证失败
+        if($validator->fails()){
+            return redirect('admin/point/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        //判断用户是否存在
+        $user = DB::table('index_user')->where('uid',$input['uid'])->first();
+        if(!$user){
+            return redirect('admin/point/create')->with('errors','用户名ID不存在,不能添加');
+        }
+
         //添加到数据库
-//        dd($input);
         $res = Point::create($input);
+//        dd($input);
         //判断添加是否成功
         if($res){
-            return redirect('admin/point')->with(['msg','添加成功']);
+            return redirect('admin/point')->with('errors','添加成功');
         }else{
-            return redirect('admin/point/create')->with('msg','添加失败');
+            return redirect('admin/point/create')->with('errors','添加失败');
         }
     }
 
