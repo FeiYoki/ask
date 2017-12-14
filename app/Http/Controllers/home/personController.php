@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\home;
+namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
-use App\Models\Notice;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class noticeController extends Controller
+class personController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,7 @@ class noticeController extends Controller
      */
     public function index()
     {
-        $notice = Notice::orderBy('nid','asc')->paginate(3);
-        return view('home.notice.notice',compact('notice'));
+        return view('home.person');
     }
 
     /**

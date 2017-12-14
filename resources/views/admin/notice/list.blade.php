@@ -75,7 +75,7 @@
                     @if(empty($input))
                         {!! $notice->render() !!}
                     @else
-                        {!! $notice->appends(['keywords=>$v'])->render() !!}
+                        {!! $notice->appends(['keywords'=>$input])->render() !!}
                     @endif
                 </div>
                 <style>

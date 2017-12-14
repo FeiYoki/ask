@@ -1,6 +1,6 @@
-@extends('layouts.fei-home')
+@extends('layouts.home')
 @section('title')
-    <title>我的题问</title>
+    <title>我的提问</title>
 @endsection
 @section('body')
 
@@ -173,15 +173,16 @@
 
 
 
-<footer id="footer">
-    <div class="container">
-        <div class="text-center">
-            <a href="http://localhost/tipask-3.2.1/public">php193问答系统</a><span class="span-line">|</span>
-            <a href="mailto:zhangyunfei0033@163.com" target="_blank">联系我们</a><span class="span-line">|</span>
-        </div>
-        <div class="copyright mt-10">
-            Powered By <a href="http://www.tipask.com" target="_blank">Tipask3.2</a> Release 20170412 ©2009-2017 tipask.com
-        </div>
-    </div>
-</footer>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{{ asset('/static/js/jquery.min.js') }}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{ asset('/static/css/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript">
+    var is_login = Boolean("1");
+</script>
+<script src="{{ asset('js/global.js') }}"></script>
+<script src="{{ asset('/static/js/select2/js/select2.min.js')}}"></script>
+
 @endsection

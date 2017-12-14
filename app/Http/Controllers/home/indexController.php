@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\home;
+namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
@@ -8,17 +8,19 @@ use App\Models\Notice;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class noticeController extends Controller
+class indexController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $notice = Notice::orderBy('nid','asc')->paginate(3);
-        return view('home.notice.notice',compact('notice'));
+        $notice = Notice::all();
+        // dd($notice);
+        
+        return view('home.index')->with('notice',$notice);
     }
 
     /**

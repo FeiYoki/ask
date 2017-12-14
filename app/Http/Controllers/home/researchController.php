@@ -2,21 +2,45 @@
 
 namespace App\Http\Controllers\home;
 
+
+use App\Models\Answer;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class researchController extends Controller
+
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // if(!empty())
+        $input = $request->except('_token');
+        // dd($input);
+        if(!empty($input['word'])){
+        $input = $input['word'];
+        // dd($input);
+        $res = Question::orderBy('qid','desc')
+            ->join('class','question.cid','=','class.cid')
+            ->where('title','like','%'.$input.'%')
+            ->orwhere('content','like','%'.$input.'%')
+            ->paginate(4);
+        // dd($res);
+        return view('home.research.research',compact('res','input'));
+        }else{
+        $res = Question::orderBy('qid','desc')
+            ->join('class','question.cid','=','class.cid')
+            ->paginate(4);
+        return view('home.research.research',compact('res'));
+        }
+        
     }
 
     /**
@@ -24,64 +48,9 @@ class researchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function search(Request $request)
     {
-        //
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

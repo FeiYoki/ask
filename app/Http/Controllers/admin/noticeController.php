@@ -72,6 +72,7 @@ class noticeController extends Controller
         // dd($res);
         if($res){
             
+
             return redirect('admin/list')->with('msg','添加成功');
         }else{
             return redirect('admin/create')->with('msg','添加失败');

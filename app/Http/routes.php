@@ -15,13 +15,18 @@ Route::get('admin/index', 'Admin\IndexController@index');
 Route::get('admin/info', 'Admin\IndexController@info');
 Route::get('admin/logout','Admin\IndexController@logout');
 
-//后台问题模块路由
-Route::resource('admin/question','Admin\QuestionController');
-//前台问题模块路由
-Route::resource('home/question','Home\QuestionController');
-//积分模块
-Route::resource('admin/point','Admin\PointController');
 
+//后台提问模块路由
+Route::resource('admin/question','Admin\QuestionController');
+//前台提问模块路由
+Route::resource('home/question','Home\QuestionController');
+//前台问题详情模块路由
+Route::get('home/question/{id}/detail','Home\QuestionController@detail');
+//后台积分管理模块
+Route::resource('admin/point','Admin\PointController');
+//前台问题评论模块
+Route::get('comment','CommentController@index');
+Route::post('comment/add','CommentController@addComment');
 
 
 //后台用户注册
@@ -31,13 +36,8 @@ Route::post('admin/dologin','Admin\LoginController@dologin');
 Route::get('admin/yzm','Admin\LoginController@yzm');
 
 
-// 分类模块路由
 
-
-
-
-
-Route::group(['middleware' => ['hasrole'], 'prefix'=>'admin', 'namespace'=>'Admin'],function (){
+Route::group([ 'prefix'=>'admin', 'namespace'=>'Admin'],function (){
 
 //    用户授权路由
     Route::get('user/auth/{id}','UserController@auth');
@@ -52,6 +52,7 @@ Route::group(['middleware' => ['hasrole'], 'prefix'=>'admin', 'namespace'=>'Admi
 //角色管理
 
 
+
 //权限管理
     Route::resource('permission', 'PermissionController');
 
@@ -60,6 +61,7 @@ Route::group(['middleware' => ['hasrole'], 'prefix'=>'admin', 'namespace'=>'Admi
 Route::get('errors/auth',function(){
     return view('errors.auth');
 });
+
 
 
 // 分类模块路由
@@ -71,8 +73,10 @@ Route::post('admin/link/changeOrder', 'Admin\LinkController@changeOrder');
 Route::resource('admin/link','Admin\LinkController');
 
 
+
 // 后台回答管理模块
 Route::resource('admin/answer','admin\AnswerController');
+
 
 
 // 后台公告
@@ -92,6 +96,11 @@ Route::get('home/answer','home\answerController@index');
 Route::post('home/answer/store','home\answerController@store');
 Route::get('home/answer/edit/{id}','home\answerController@edit');
 
+// 搜索模块
+// 搜索页搜索
+Route::post('home/research/search','home\researchController@index');
+// 传递分页数据
+Route::get('home/research/search','home\researchController@index');
 
 
 //网站配置排序
@@ -102,8 +111,5 @@ Route::post('admin/config/contentchange', 'Admin\ConfigController@ContentChange'
 Route::get('admin/config/putfile','Admin\ConfigController@PutFile');
 // 网站配置路由
 Route::resource('admin/config', 'Admin\ConfigController');
-
-
-
 
 

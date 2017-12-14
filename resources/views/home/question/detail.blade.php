@@ -1,86 +1,8 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="csrf-token" content="svFwja2PS1gWZauwPBVkNlUBOJiw1B3I2QKB7v5Q" />
-    <title></title>
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="Tipask Team" />
-    <meta name="copyright" content="2016 tipask.com" />
-
-    <!-- Bootstrap -->
-    <link href="{{ asset('/static/css/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('/static/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('/css/default/global.css')}}" rel="stylesheet" />
-    <link href="{{ asset('/static/js/select2/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('/static/js/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
-
-<div class="top-common-nav  mb-50">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#global-navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="logo"><a class="navbar-brand logo" href="http://localhost/tipask/public"></a></div>
-            </div>
-
-            <div class="collapse navbar-collapse" id="global-navbar">
-                <form class="navbar-form navbar-left" role="search" id="top-search-form" action="http://localhost/tipask/public/search" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="word" id="searchBox" class="form-control" placeholder="" />
-                        <span class="input-group-addon btn" ><span id="search-button" class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-                    </div>
-                </form>
-                <ul class="nav navbar-nav">
-                    <li ><a href="http://localhost/tipask/public">首页 <span class="sr-only">(current)</span></a></li>
-
-                    <li ><a href="http://localhost/tipask/public/doings">发现</a></li>
-                    <li ><a href="http://localhost/tipask/public/questions">问答</a></li>
-                    <li ><a href="http://localhost/tipask/public/articles">文章</a></li>
-                    <li ><a href="http://localhost/tipask/public/topics">话题</a></li>
-                    <li ><a href="http://localhost/tipask/public/shop">商城</a></li>
-                </ul>
-                <ul class="nav navbar-nav user-menu navbar-right">
-                    <li><a href="http://localhost/tipask/public/notifications" class="active" id="unread_notifications"><span class="fa fa-bell-o fa-lg"></span></a></li>
-                    <li><a href="http://localhost/tipask/public/messages" class="active" id="unread_messages"><i class="fa fa-envelope-o fa-lg"></i></a></li>
-                    <li class="dropdown user-avatar">
-                        <a href="http://localhost/tipask/public/profile/base" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <img class="avatar-32 mr-5" alt="admin" src="http://localhost/tipask/public/image/avatar/1_middle.jpg" >
-                            <span>admin</span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="http://localhost/tipask/public/admin/index">系统设置</a></li>
-                            <li class="divider"></li>
-
-                            <li><a href="http://localhost/tipask/public/people/1">我的主页</a></li>
-                            <li><a href="http://localhost/tipask/public/notifications">我的私信</a></li>
-                            <li><a href="http://localhost/tipask/public/profile/base">账号设置</a></li>
-                            <li class="divider"></li>
-                            <li><a href="http://localhost/tipask/public/logout">退出</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
+@extends('layouts.home')
+@section('title')
+    <title>问题详情</title>
+@endsection
+@section('body')
 <div class="top-alert mt-60 clearfix text-center">
     <!--[if lt IE 9]>
     <div class="alert alert-danger topframe" role="alert">你的浏览器实在<strong>太太太太太太旧了</strong>，放学别走，升级完浏览器再说
@@ -98,22 +20,48 @@
             <div class="col-xs-12 col-md-9 main">
                 <div class="widget-question">
                     <h4 class="title">
-                        {{$input['title']}}
+                        {{$question['title']}}
                     </h4>
                     <ul class="taglist-inline">
                     </ul>
                     <div class="description mt-10">
                         <div class="text-fmt ">
-                            {!! $input['content'] !!}
+                            {!! $question['content'] !!}
                         </div>
 
                         <div class="post-opt mt-10">
                             <ul class="list-inline">
-                                <li><a class="comments"  data-toggle="collapse"  href="#comments-question-3" aria-expanded="false" aria-controls="comment-3"><i class="fa fa-comment-o"></i> 0 条评论</a></li>
-                                <li><a href="{{ asset('home/question/'.$input['qid'].'/edit') }}" class="edit" data-toggle="tooltip" data-placement="right" title="" data-original-title="补充细节，以得到更准确的答案"><i class="fa fa-edit"></i> 编辑</a></li>
-                                <li><a href="{{ asset('home/question/'.$input['qid'].'/') }}" class="edit" data-toggle="tooltip" data-placement="right" title="" data-original-title="补充细节，以得到更准确的答案"><i class="fa fa-edit"></i> 删除</a></li>
-                                <li><a href="#" data-toggle="modal" data-target="#appendReward"  ><i class="fa fa-database"></i> 追加悬赏</a></li>
-                                <li><a href="#" data-toggle="modal" data-target="#inviteAnswer"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> 邀请回答</a></li>
+                                <!-- <li><a class="comments"  data-toggle="collapse"  href="#comments-question-3" aria-expanded="false" aria-controls="comment-3"><i class="fa fa-comment-o"></i> 0 条评论</a></li> -->
+                                <li><a href="{{ asset('home/question/'.$question['qid'].'/edit') }}" class="edit" data-toggle="tooltip" data-placement="right" title="" data-original-title="补充细节，以得到更准确的答案"><i class="fa fa-edit"></i> 编辑</a></li>
+                                <li><a href="javascript:;" class="edit" onclick="qDel({{$question['qid']}})" ><i class="fa fa-edit"></i> 删除</a></li>
+                                <script>
+
+                                    function qDel(id) {
+
+                                        //询问框
+                                        layer.confirm('您确认删除吗？', {
+                                            btn: ['确认','取消'] //按钮
+                                        }, function(){
+                                            //如果用户发出删除请求，应该使用ajax向服务器发送删除请求
+                                            $.post("{{url('home/question')}}/"+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(data){
+                                                //删除成功
+                                                if(data.error == 0){
+                                                    layer.msg(data.msg, {icon: 6});
+                                                    var t=setTimeout("location.href = location.href;",2000);
+                                                }else{
+                                                    layer.msg(data.msg, {icon: 5});
+                                                    var t=setTimeout("location.href = location.href;",2000);
+                                                }
+
+
+                                            });
+                                        }, function(){
+
+                                        });
+                                    }
+                                </script>
+                                <!-- <li><a href="#" data-toggle="modal" data-target="#appendReward"  ><i class="fa fa-database"></i> 追加悬赏</a></li> -->
+                                <!-- <li><a href="#" data-toggle="modal" data-target="#inviteAnswer"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> 邀请回答</a></li> -->
                             </ul>
                         </div>
 
@@ -142,9 +90,11 @@
                         <a href="http://localhost/tipask/public/question/3" class="btn btn-default btn-xs  active ">默认排序</a>
                         <a href="http://localhost/tipask/public/question/3?sort=created_at" id="sortby-created" class="btn btn-default btn-xs ">时间排序</a>
                     </div>
-
-                    <h2 class="h4 post-title"> 0 个回答</h2>
-
+                    @if(!empty($count))
+                    <h2 class="h4 post-title"> {{$count}} 个回答</h2>
+                    @endif
+                    @if(!empty($answer))
+                    @foreach($answer as $k=>$v)
                     <div class="media">
                         <div class="media-left">
                             <a href="http://localhost/tipask/public/people/2" class="avatar-link user-card" target="_blank">
@@ -156,18 +106,25 @@
                                 <strong>
                                     <a href="http://localhost/tipask/public/people/2" class="mr-5 user-card">xxxxxx</a><span class="text-gold">                                </span>
                                 </strong>
-                                <span class="answer-time text-muted hidden-xs">11小时前</span>
+                                <span class="answer-time text-muted hidden-xs">回答时间 {{$v->date}}</span>
                             </div>
                             <div class="content">
-                                <p><p>123123123</p></p>
+                                {!! $v->content !!}
                             </div>
+                            <style>
+                                img{
+                                    width:200px;
+                                    height:100px;
+                                    margin:0px 30px;
+                                }
+                            </style>
                             <div class="media-footer">
                                 <ul class="list-inline mb-20">
-                                    <li><a class="comments"  data-toggle="collapse"  href="#comments-answer-1" aria-expanded="false" aria-controls="comment-1"><i class="fa fa-comment-o"></i> 0 条评论</a></li>
-                                    <li><a href="http://localhost/tipask/public/answer/edit/1" data-toggle="tooltip" data-placement="right" title="" data-original-title="继续完善回答内容"><i class="fa fa-edit"></i> 编辑</a></li>
+                                    {{--<li><a class="comments"  data-toggle="collapse"  href="#comments-answer-1" aria-expanded="false" aria-controls="comment-1"><i class="fa fa-comment-o"></i> 0 条评论</a></li>--}}
+                                    {{--<li><a href="http://localhost/tipask/public/answer/edit/1" data-toggle="tooltip" data-placement="right" title="" data-original-title="继续完善回答内容"><i class="fa fa-edit"></i> 编辑</a></li>--}}
                                     <li><a href="#" class="adopt-answer" data-toggle="modal" data-target="#adoptAnswer" data-answer_id="1" data-answer_content="&lt;p&gt;123123123&lt;/p&gt;"><i class="fa fa-check-square-o"></i> 采纳</a></li>
                                     <li class="pull-right">
-                                        <button class="btn btn-default btn-sm btn-support" data-source_id="1" data-source_type="answer"  data-support_num="0"><i class="fa fa-thumbs-o-up"></i> 0</button>
+                                        {{--<button class="btn btn-default btn-sm btn-support" data-source_id="1" data-source_type="answer"  data-support_num="0"><i class="fa fa-thumbs-o-up"></i> 0</button>--}}
                                     </li>
                                 </ul>
                             </div>
@@ -187,6 +144,8 @@
                             </div>
                         </div>
                     </div>
+                    @endforeach
+                    @endif
                     <div class="text-center">
 
                     </div>
@@ -203,16 +162,16 @@
                     <ul class="widget-action list-unstyled">
                         <li>
                             <button type="button" id="follow-button" class="btn btn-success btn-sm" data-source_type = "question" data-source_id = "3" data-show_num="true"  data-toggle="tooltip" data-placement="right" title="" data-original-title="关注后将获得更新提醒">浏览</button>
-                            <strong id="follower-num">{{ $input['click'] }}</strong>
+                            <strong id="follower-num">{{ $question['click'] }}</strong>
                         </li>
                         <li>
                             {{--<button id="collect-button" class="btn btn-default btn-sm" data-source_type = "question" data-source_id = "3" > 收藏</button>--}}
-                            {{--<strong id="collection-num">0</strong> 收藏，<strong class= "no-stress">{{ $input['click'] }}</strong> 浏览--}}
+                            {{--<strong id="collection-num">0</strong> 收藏，<strong class= "no-stress">{{ $question['click'] }}</strong> 浏览--}}
                         </li>
                         <li>
                             <i class="fa fa-clock-o"></i>
                             <a href="http://localhost/tipask/public/people/1" target="_blank">admin</a>
-                            提出于 {{ date('Y-m-d',$input['date']) }}</li>
+                            提出于 {{ date('Y-m-d',$question['date']) }}</li>
                     </ul>
                 </div>
                 <div class="widget-box">
@@ -330,19 +289,6 @@
 
 
 
-<footer id="footer">
-    <div class="container">
-        <div class="text-center">
-            <a href="http://localhost/tipask/public">php193问答系统</a><span class="span-line">|</span>
-            <a href="mailto:zhangyunfei0033@163.com" target="_blank">联系我们</a><span class="span-line">|</span>
-        </div>
-        <div class="copyright mt-10">
-            Powered By <a href="http://www.tipask.com" target="_blank">Tipask3.2</a> Release 20170412 ©2009-2017 tipask.com
-        </div>
-    </div>
-</footer>
-
-
 <div class="modal fade" id="sendTo_message_model" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -382,6 +328,8 @@
 </script>
 <script src="{{ asset('js/global.js') }}"></script>
 <script src="{{ asset('/static/js/select2/js/select2.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('layer/layer.js')}}"></script>
+
 <script type="text/javascript">
     var invitation_timer = null;
     var question_id = "3";
@@ -602,10 +550,7 @@
     function loadQuestionInvitedUsers(questionId,type){
         $("#questionInviteUsers").load('/question/'+questionId+'/invitations/'+type);
     }
-
 </script>
 
 
-
-</body>
-</html>
+@endsection

@@ -1,6 +1,6 @@
-@extends('layouts.fei-home')
+@extends('layouts.home')
 @section('title')
-    <title>修改题问</title>
+    <title>修改提问</title>
 @endsection
 @section('body')
 
@@ -101,11 +101,11 @@
                     <label for="question_editor">问题描述(选填)</label>
                     <div id="question_editor">
 
-                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
-                        <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+                        <script type="text/javascript" charset="utf-8" src="{{asset('/ueditor/ueditor.config.js')}}"></script>
+                        <script type="text/javascript" charset="utf-8" src="{{asset('/ueditor/ueditor.all.min.js')}}"> </script>
                         <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
                         <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-                        <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+                        <script type="text/javascript" charset="utf-8" src="{{asset('/ueditor/lang/zh-cn/zh-cn.js')}}"></script>
 
                         <script id="editor" name="content" type="text/plain" style="width:1170px;height:180px;">{!! $question->content !!}</script>
                         <script>
@@ -173,15 +173,15 @@
 
 
 
-<footer id="footer">
-    <div class="container">
-        <div class="text-center">
-            <a href="http://localhost/tipask-3.2.1/public">php193问答系统</a><span class="span-line">|</span>
-            <a href="mailto:zhangyunfei0033@163.com" target="_blank">联系我们</a><span class="span-line">|</span>
-        </div>
-        <div class="copyright mt-10">
-            Powered By <a href="http://www.tipask.com" target="_blank">Tipask3.2</a> Release 20170412 ©2009-2017 tipask.com
-        </div>
-    </div>
-</footer>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{{ asset('/static/js/jquery.min.js') }}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{ asset('/static/css/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript">
+    var is_login = Boolean("1");
+</script>
+<script src="{{ asset('js/global.js') }}"></script>
+<script src="{{ asset('/static/js/select2/js/select2.min.js')}}"></script>
+
 @endsection
